@@ -53,6 +53,58 @@ V = {
 SIT = [k for k in V if V[k]['kind'] == 'sit']
 GO = [k for k in V if V[k]['kind'] == 'go']
 
+# ---------------------------------------------------------------- Christmas 2026
+XMAS_PRICE = '55'
+XMAS = {  # restaurants serving the festive set menu on Christmas Day
+ 'crockers-folly': dict(where='Crockers Folly', note='The festive menu is served across the restaurant.',
+    email='crockersfolly@maroush.com', pdf='assets/christmas-menu-crockers-folly.pdf'),
+ 'beauchamp-place': dict(where='Beauchamp Place, first floor', note='Festive menu upstairs. Our usual menu on the ground floor.',
+    email='maroush2@maroush.com', pdf='assets/christmas-menu-beauchamp-place.pdf'),
+}
+XMAS_COURSES = [
+ ('Cold starters', [('Hommos', 'Chickpeas, tahini and lemon', 'Sesame'),
+   ('Mouhamara', 'Roasted red pepper with walnuts, cashews, pistachios, chilli and cumin', 'Nuts, gluten'),
+   ('Tabbouleh quinoa salad', 'Parsley, tomato, mint, quinoa and pomegranate', ''),
+   ('Wark inab b’zeit', 'Vine leaves rolled with rice, tomato and herbs, slow-cooked with lemon', '')]),
+ ('Hot starters', [('Lamb kibbeh', 'Lamb and bulgur croquettes filled with onion, lamb and pine nuts', 'Milk, gluten'),
+   ('Spicy soujok', 'Our butchers’ spicy sausages with tomato and lemon', ''),
+   ('Halloumi pesto', 'Char-grilled halloumi with cherry tomato and pesto', 'Milk')]),
+ ('Main course', [('Maroush mixed grill', 'Lamb kafta, shish taouk and lamb cutlets over charcoal, with grilled tomato and onion', 'Gluten'),
+   ('Roasted lamb', 'Braised lamb shank with lamb gravy, and brown rice with minced lamb and pine nuts', 'Milk, celery, gluten')]),
+ ('Dessert', [('Mouhallabieh', 'Lebanese milk pudding with rosewater syrup and pistachio', 'Milk, nuts')]),
+]
+
+def xmas_menu_card():
+    cols = []
+    for title, items in XMAS_COURSES:
+        li = ''.join(f'<li><b>{n}</b><p>{d}</p>{f"<span class=al>{a}</span>" if a else ""}</li>' for n, d, a in items)
+        cols.append(f'<div class="xc"><h3>{title}</h3><ul>{li}</ul></div>')
+    return f'''<div class="xcard">
+        <div class="xcard-h"><span class="label">Christmas Day set menu</span><b>£{XMAS_PRICE}<small>per person</small></b></div>
+        <div class="xcols">{''.join(cols)}</div>
+        <p class="xfine">Price includes VAT. A discretionary 12.5% service charge is added to your bill. Allergens are listed under each dish; please tell your server about any allergy.</p>
+      </div>'''
+
+def xmas_band(k):
+    x = XMAS[k]; v = V[k]
+    return f'''<section class="section xmas" id="christmas">
+    <div class="wrap">
+      <div class="head">
+        <div><div class="label">Christmas Day</div><h2>A Lebanese<br><span class="it">Christmas</span></h2></div>
+        <p>We are open on Christmas Day with a festive set menu at £{XMAS_PRICE} per person. {x['note']}</p>
+      </div>
+      {xmas_menu_card()}
+      <div class="xbook">
+        <div><span class="label">To book</span><b class="sel">{v['phone']}</b><span class="sel">{x['email']}</span></div>
+        <div class="btns"><button class="btn btn-cream" type="button" data-book>Book Christmas Day <span class="ar">→</span></button><a class="btn btn-ghost" href="{x['pdf']}" target="_blank" rel="noopener">Menu PDF ↗</a></div>
+      </div>
+    </div>
+  </section>'''
+
+def announce():
+    return f'''<div class="announce"><div class="wrap"><span><b>Open on Christmas Day.</b> Festive set menu £{XMAS_PRICE} at Crockers Folly and Beauchamp Place.</span><a href="christmas.html">See the menu →</a></div></div>
+'''
+
 # ---------------------------------------------------------------- shared chrome
 def head(title, desc):
     return f'''<title>{title}</title>
@@ -77,7 +129,7 @@ def mv(k):
 
 def header(active=''):
     rest_cur = ' aria-current="page"' if active in V or active == 'restaurants.html' else ''
-    return f'''<header class="top" id="top">
+    return announce() + f'''<header class="top" id="top">
   <div class="wrap">
     <a class="logo" href="index.html" aria-label="Maroush home"><img src="assets/logo-red.png" alt="Maroush, Lebanese cuisine since 1981"></a>
     <nav class="nav" aria-label="Main">
@@ -94,13 +146,14 @@ def header(active=''):
               {''.join(mv(k) for k in GO)}
               <a class="mall" href="restaurants.html">All restaurants →</a>
             </div>
-            <div class="mfeat">
+            <a class="mfeat" href="christmas.html">
               <div class="ph"><video src="assets/crockers.mp4" poster="assets/crockers.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Maroush at Crockers Folly"></video></div>
               <div class="mfeat-c">
-                <b>The original,<br>since 1981</b>
-                <button class="btn btn-cream" type="button" data-book>Book a table →</button>
+                <span class="label">Christmas Day</span>
+                <b>Festive menu<br>£{XMAS_PRICE} a head</b>
+                <span class="btn btn-cream">See the menu →</span>
               </div>
-            </div>
+            </a>
           </div>
         </div>
       </div>
@@ -123,6 +176,7 @@ def header(active=''):
   <small>Grab &amp; go</small>
   {''.join(f'<a class="sub" href="{k}.html">{V[k]["short"]}</a>' for k in GO)}
   <small>More</small>
+  <a href="christmas.html">Christmas</a>
   <a href="menu.html">Menu</a>
   <a href="about.html">Our story</a>
   <a href="catering.html">Events</a>
@@ -143,6 +197,7 @@ def footer():
         {''.join(f'<a href="{k}.html">{V[k]["name"]}</a>' for k in GO)}
       </div>
       <div class="foot-col"><h4>Visit</h4>
+        <a href="christmas.html">Christmas Day</a>
         <a href="menu.html">Menu</a>
         <a href="about.html">Our story</a>
         <a href="catering.html">Events &amp; catering</a>
@@ -190,10 +245,12 @@ def ph(name, alt, cls='ph peak', video=False, eager=False):
 def dish(img, name, ar):
     return f'<figure class="dish rv">{ph(img, name)}<figcaption><b>{name}</b><i>{ar}</i></figcaption></figure>'
 
-def menus_row(label='Menus'):
+def menus_row(k=None, label='Menus'):
+    tab = 'menu-full' if k in ('crockers-folly', 'beauchamp-place') else 'menu-every'
     return f'''<div class="menus">
         <span class="label">{label}</span>
-        <a href="menu.html">Full menu →</a>
+        <a href="menu.html#{tab}">Full menu →</a>
+        <a href="menu.html#lunch">Lunch offer →</a>
         <a href="{MENU_PDF['drinks']}" target="_blank" rel="noopener">Cocktails ↗</a>
         <a href="{MENU_PDF['wine']}" target="_blank" rel="noopener">Wine ↗</a>
       </div>'''
@@ -214,6 +271,8 @@ def others(exclude):
 def visit_band(k):
     v = V[k]
     hours = ''.join(f'<dt>{d}</dt><dd>{t}</dd>' for d, t in v['hours'])
+    hours += '<dt>Lunch offer</dt><dd><a href="menu.html#lunch">Mon–Thu until 3pm</a></dd>'
+    hours += '<dt>Christmas Day</dt><dd>' + ('Open · <a href="#christmas">festive menu</a>' if k in XMAS else 'Open · usual menu') + '</dd>'
     q = 'Maroush ' + ' '.join(v['addr'])
     if v['kind'] == 'sit':
         act = '<div class="btns"><button class="btn btn-cream" type="button" data-book>Book a table <span class="ar">→</span></button></div>'
@@ -311,10 +370,11 @@ def sit_page(k, video, sub, stamp, about_h, about_p, about_points, imgs, dishes_
         <p>Share a spread of mezze for the table, then move on to charcoal-grilled meats and shawarma from the spit.</p>
       </div>
       <div class="dishes">{''.join(dish(*d) for d in dishes_)}</div>
-      {menus_row()}
+      {menus_row(k)}
     </div>
   </section>
 
+  {xmas_band(k) if k in XMAS else ''}
   {visit_band(k)}
   {others(k)}
 </main>'''
@@ -365,7 +425,7 @@ def go_page(k, video, sub, stamp, about_h, about_p, about_points, imgs):
         <h2>{about_h}</h2>
         <p>{about_p}</p>
         <ul class="ticks">{pts}</ul>
-        <a class="btn btn-red" href="menu.html">See the full menu <span class="ar">→</span></a>
+        <a class="btn btn-red" href="menu.html#menu-every">See the full menu <span class="ar">→</span></a>
       </div>
     </div>
   </section>
@@ -467,146 +527,296 @@ PAGES['restaurants'] = ('Maroush Restaurants',
   </section>
 </main>''')
 
-# ---------------------------------------------------------------- menu
-# (name, description, price, allergens, vegan)
-MENU = [
- ('cold', 'Cold mezze', 'مازة باردة', 'Served with Lebanese bread', [
-  ('Hommos', 'Chickpeas blended with tahini, lemon and olive oil', '7.25', 'Sesame', 0),
-  ('Roasted red pepper hommos', 'Hommos with roasted red pepper and paprika', '7.50', 'Sesame', 0),
-  ('Hommos Beiruty', 'Hommos with parsley and green chilli', '7.50', 'Sesame', 0),
-  ('Moutabal baba ghanouj', 'Smoked aubergine with tahini and sumac', '7.95', 'Sesame, gluten', 0),
-  ('Tabbouleh', 'Parsley, bulgur, tomato and mint', '7.50', 'Gluten', 0),
-  ('Mouhamara', 'Roasted red pepper and walnut dip with cumin', '8.50', 'Nuts, gluten', 0),
-  ('Wark inab b’zeit', 'Vine leaves stuffed with rice, herbs and lemon', '8.00', '', 1),
-  ('Labneh', 'Strained yoghurt with olive oil and mint', '7.00', 'Milk', 0),
-  ('Moujaddarah', 'Lentils and rice with cumin and crispy onion', '6.00', '', 0),
-  ('Bazenjan al-rahib', 'Grilled aubergine with vegetables and pomegranate', '7.50', '', 0),
-  ('Moussaka', 'Fried aubergine and chickpeas in tomato sauce', '7.50', '', 0),
-  ('Loubieh b’zeit', 'Green beans stewed in tomato and olive oil', '6.50', '', 1),
-  ('Bammieh b’zeit', 'Okra with tomato and coriander', '6.50', '', 1),
-  ('Kabis', 'Pickled cucumber, turnip and chilli', '5.50', 'Sulphites', 0),
+# ---------------------------------------------------------------- menu (September 2026)
+# Each item: (name, description, price, marks). price is '9.25' or a list of (label, price).
+# marks: 'vg' vegan, 'v' vegetarian, 'hot' spicy — as printed on the Sep 2026 menus.
+FULL_BRANCHES = ['crockers-folly', 'beauchamp-place']
+EVERY_BRANCHES = ['earls-court', 'edgware-road', 'kings-road', 'high-street-kensington']
+
+MENU_FULL = [
+ ('f-cold', 'Cold mezze', 'مازة باردة', 'Served with Lebanese bread', [
+  ('Hommos', 'Chickpeas blended with tahini, garlic and lemon, finished with olive oil', '9.25', 'vg'),
+  ('Hommos Beiruty', 'Hommos with parsley and fresh green chilli', '9.50', 'vg hot'),
+  ('Moutabal baba ghanouj', 'Grilled aubergine with tahini, lemon and sumac', '9.95', 'vg'),
+  ('Mouhamara', 'Roasted red pepper with walnuts, cashews, pistachios, chilli and cumin', '12.00', 'vg hot'),
+  ('Wark inab b’zeit', 'Vine leaves rolled with rice, tomato and herbs, slow-cooked with lemon', '10.00', 'vg'),
+  ('Moussaka', 'Aubergine and chickpeas in a rich tomato sauce', '9.75', 'vg'),
+  ('Bammieh b’zeit', 'Okra with tomato, garlic and fresh coriander', '9.75', 'vg'),
+  ('Labneh', 'Strained yoghurt with olive oil and dried mint', '8.75', 'v'),
+  ('Cucumber salad with yoghurt', 'Yoghurt with chopped cucumber and dried mint', '8.00', 'v'),
+  ('Kabis', 'Cucumber, turnip and chilli pickled with garlic', '6.50', 'vg'),
  ]),
- ('hot', 'Hot mezze', 'مازة ساخنة', 'Served with Lebanese bread', [
-  ('Falafel', 'Chickpea and fava croquettes with tahini', '7.50', 'Sesame, sulphites', 0),
-  ('Kibbeh', 'Lamb and bulgur croquettes filled with pine nuts', '7.75', 'Milk, gluten', 0),
-  ('Halloum meshwi', 'Char-grilled halloumi with tomato and cucumber', '8.50', 'Milk', 0),
-  ('Batata harra', 'Spicy potatoes with garlic, coriander and chilli', '7.50', '', 0),
-  ('Foul moudamas', 'Broad beans with garlic, cumin and lemon', '7.50', '', 0),
-  ('Pumpkin kebbeh', 'Bulgur and pumpkin with spinach and pine nuts', '7.50', 'Gluten', 0),
-  ('Awarma hommos', 'Hommos topped with sautéed lamb and pine nuts', '8.50', 'Sesame', 0),
-  ('Chicken shawarma hommos', 'Hommos topped with sliced chicken shawarma', '9.00', 'Sesame', 0),
-  ('Lamb shawarma hommos', 'Hommos topped with sliced lamb shawarma', '10.50', 'Sesame', 0),
-  ('Jawaneh', 'Char-grilled chicken wings with garlic sauce', '6.50', '', 0),
-  ('Chicken liver', 'Pan-fried with pomegranate molasses', '7.50', '', 0),
-  ('Fattet hommos b’laban', 'Crispy bread, chickpeas and yoghurt', '7.75', 'Milk, gluten', 0),
-  ('Maqaneq', 'Flambéed mini sausages with pomegranate molasses', '8.75', '', 0),
-  ('Soujok', 'Spicy sausages sautéed with tomato', '8.75', '', 0),
+ ('f-salads', 'Salads &amp; soup', 'سلطات', '', [
+  ('Tabbouleh', 'Parsley, tomato, mint, onion and bulgur with lemon and olive oil', '9.50', 'vg'),
+  ('Fattoush', 'Mixed salad with crispy Lebanese bread, sumac and pomegranate molasses', '9.50', 'vg'),
+  ('Maroush salad', 'Lettuce, tomato, cucumber, radish and peppers with thyme, mint and sumac', '9.75', 'vg'),
+  ('Lentil soup', 'Red lentils with onion, garlic and cumin, with crispy bread and lemon', '7.50', 'vg'),
  ]),
- ('salads', 'Salads, soups &amp; bakery', 'سلطات', '', [
-  ('Fattoush', 'Mixed salad with crispy bread and pomegranate molasses', '7.50', 'Gluten', 0),
-  ('Maroush salad', 'Mixed salad with radish and sumac', '6.50', '', 0),
-  ('Spicy Lebanese salad', 'Mixed salad with green chilli and sumac', '6.50', '', 0),
-  ('Quinoa tabbouleh', 'Tabbouleh made with quinoa and pomegranate', '7.95', '', 0),
-  ('Cucumber with yoghurt', 'Yoghurt, cucumber and mint', '6.00', 'Milk', 0),
-  ('Lentil soup', 'Red lentils with cumin', '6.00', 'Gluten', 0),
-  ('Creamy chicken soup', 'Chicken broth with cream and black pepper', '6.50', 'Milk, celery, gluten', 0),
-  ('Fatayer b’sabanekh', 'Baked spinach pastries', '7.00', 'Gluten', 0),
-  ('Mini manakish za’atar', 'Flatbread with thyme and sesame', '4.00', 'Sesame, gluten', 0),
-  ('Arayes Maroush', 'Char-grilled bread stuffed with minced lamb', '7.00', 'Gluten', 0),
-  ('Sambousek', 'Fried pastries with cheese, or with lamb', '7.00', 'Milk, gluten', 0),
+ ('f-hot', 'Hot mezze', 'مازة ساخنة', 'Served with Lebanese bread', [
+  ('Falafel', 'Chickpea and fava bean croquettes with tahini', '8.95', 'vg'),
+  ('Foul moudamas', 'Broad beans with garlic, cumin, lemon and olive oil', '9.95', 'vg'),
+  ('Batata harra', 'Spicy potatoes with garlic, coriander, peppers and chilli', '9.00', 'vg hot'),
+  ('Hommos awarma', 'Hommos topped with sautéed diced lamb and pine nuts', '12.00', ''),
+  ('Hommos shawarma chicken', 'Hommos topped with sliced chicken shawarma', '13.00', ''),
+  ('Hommos shawarma lamb', 'Hommos topped with sliced lamb shawarma', '14.50', ''),
+  ('Kibbeh', 'Lamb and bulgur croquettes filled with onion, lamb and pine nuts', '9.95', ''),
+  ('Halloum meshwi', 'Char-grilled halloumi with tomato and cucumber', '10.50', 'v'),
+  ('Jawaneh', 'Char-grilled chicken wings with lemon, garlic and garlic sauce', '8.50', ''),
+  ('Chicken liver', 'Pan-fried with lemon and garlic, with pomegranate molasses', '9.50', ''),
+  ('Soujok', 'Our butchers’ spicy sausages with tomato and lemon', '10.50', 'hot'),
  ]),
- ('grill', 'From the charcoal grill', 'مشاوي', 'Served with Lebanese bread', [
-  ('Meshwi lahem', 'Skewers of lamb cubes', '18.50', '', 0),
-  ('Taouk shish', 'Skewers of chicken with garlic sauce', '17.00', '', 0),
-  ('Meshwi kafta', 'Skewers of minced lamb', '17.00', '', 0),
-  ('Maroush mixed grill', 'Lamb kafta, chicken and lamb cubes', '18.50', '', 0),
-  ('Kafta khosh-khash', 'Lamb kafta with spicy ratatouille', '17.50', '', 0),
-  ('Yoghurtieh kafta', 'Minced lamb with yoghurt and bread', '17.00', 'Milk, gluten', 0),
-  ('Lamb kastaleta', 'Lamb cutlets with fries', '20.00', '', 0),
-  ('Meshwi farrouj', 'Boneless baby chicken with garlic sauce', '17.50', '', 0),
-  ('Grilled sea bass', 'Whole chargrilled sea bass with tahini', '23.00', 'Fish, sesame', 0),
+ ('f-bakery', 'Bakery', 'معجنات', '', [
+  ('Maroush kalaj', 'Char-grilled flatbread filled with halloumi and thyme', '9.50', 'v'),
+  ('Maroush arayes', 'Char-grilled flatbread filled with spiced minced lamb', '9.95', ''),
+  ('Sambousek cheese', 'Crisp pastries filled with feta and thyme', '9.50', 'v'),
+  ('Sambousek lamb', 'Crisp pastries filled with lamb, cheese and pine nuts', '9.75', ''),
  ]),
- ('shawarma', 'Shawarma &amp; mains', 'شاورما', '', [
-  ('Lamb shawarma', 'Roasted lamb from the spit with tahini', '18.00', 'Sesame, gluten', 0),
-  ('Chicken shawarma', 'Roasted chicken from the spit with garlic sauce', '17.00', 'Gluten', 0),
-  ('Mixed shawarma', 'Lamb and chicken shawarma', '18.00', 'Sesame, gluten', 0),
-  ('Lamb shank', 'Mediterranean-spiced lamb shank with brown rice', '19.00', 'Milk, celery, gluten', 0),
-  ('Roast chicken', 'Roasted chicken with brown rice', '16.50', 'Milk, celery, gluten', 0),
-  ('Aubergine &amp; chickpea casserole', 'With rice', '16.00', '', 1),
-  ('Okra stew', 'With rice', '16.00', '', 1),
-  ('Green bean stew', 'With rice', '16.00', '', 1),
+ ('f-grill', 'From the charcoal grill', 'مشاوي', '', [
+  ('Lahem meshwi', 'Skewers of lamb cubes with grilled tomato, onion and parsley', '21.50', ''),
+  ('Shish taouk', 'Skewers of chicken with garlic sauce', '18.50', ''),
+  ('Kafta meshwi', 'Skewers of spiced minced lamb with onion and parsley', '19.50', ''),
+  ('Maroush mixed grill', 'Kafta, shish taouk and lamb cubes with garlic sauce', '22.50', ''),
+  ('Kafta khosh-khash', 'Lamb kafta on a spicy ratatouille', '20.00', 'hot'),
+  ('Kastaleta lamb', 'Lamb cutlets with black pepper and thyme, with thick-cut fries', '23.00', ''),
+  ('Farrouj meshwi', 'Boneless baby chicken with lemon, garlic and herbs', '19.95', ''),
+  ('Grilled sea bass', 'Whole sea bass from the grill, with tahini', '27.00', ''),
  ]),
- ('wraps', 'Wraps', 'لفائف', 'In Lebanese bread', [
-  ('Falafel', '', '6.00', 'Sesame, sulphites', 0),
-  ('Batata harra &amp; fried vegetables', '', '6.00', '', 0),
-  ('Halloumi', '', '7.00', 'Milk', 0),
-  ('Chicken shawarma', '', '7.50', '', 0),
-  ('Lamb shawarma', '', '8.00', 'Sesame', 0),
-  ('Mixed shawarma', '', '8.00', 'Sesame', 0),
-  ('Taouk shish', '', '7.50', '', 0),
-  ('Meshwi lahem', '', '8.50', 'Sesame', 0),
-  ('Meshwi kafta', '', '7.50', 'Sesame', 0),
-  ('Maqaneq', '', '7.00', 'Sesame', 0),
-  ('Soujok', '', '7.00', '', 0),
+ ('f-shawarma', 'Shawarma &amp; mains', 'شاورما', '', [
+  ('Shawarma lamb', 'British lamb with black pepper and nutmeg, with bread, grilled tomato and tahini', '21.00', ''),
+  ('Shawarma chicken', 'British chicken with lemon, garlic, cinnamon and cardamom, with garlic sauce', '18.50', ''),
+  ('Mixed shawarma', 'Lamb and chicken shawarma with bread and tahini', '20.00', ''),
+  ('Lamb shank', 'Braised with Mediterranean spices, with gravy and brown rice with minced lamb', '22.00', ''),
+  ('Roasted chicken', 'British baby chicken with garlic, lemon and herbs, with brown rice with minced lamb', '19.00', ''),
+  ('Aubergine &amp; chickpea casserole', 'With white rice', '18.00', 'vg'),
+  ('Okra stew', 'With white rice', '18.00', 'vg'),
  ]),
- ('sweets', 'Desserts', 'حلويات', '', [
-  ('Knefeh', 'Warm cheese pastry with syrup', '6.00', 'Milk, gluten, nuts, sulphites', 0),
-  ('Baklawa', 'Filo pastries with nuts and syrup', '5.50', 'Milk, sesame, nuts, peanuts, gluten', 0),
-  ('Ossmallieh', 'Crisp pastry with cream and pistachio', '5.00', 'Milk, nuts, gluten, sulphites', 0),
-  ('Mouhallabieh', 'Lebanese milk pudding', '5.00', 'Milk, nuts', 0),
-  ('Meghli', 'Spiced rice pudding with nuts', '5.00', 'Nuts, sulphites', 0),
-  ('Rice pudding', '', '5.00', 'Milk, nuts', 0),
+ ('f-wraps', 'Wraps', 'لفائف', 'In Lebanese bread', [
+  ('Falafel', 'With tomato, lettuce and tahini', '7.50', 'vg'),
+  ('Batata harra &amp; fried vegetables', 'With pickles and garlic sauce', '7.50', 'vg hot'),
+  ('Halloumi', 'With tomato, cucumber and olive oil', '8.50', 'v'),
+  ('Shawarma lamb', 'With tahini, tomato, pickles, onion, parsley and sumac', '9.75', ''),
+  ('Shawarma chicken', 'With tomato, pickles and garlic sauce', '9.75', ''),
+  ('Mixed shawarma', 'Lamb and chicken with tahini and garlic sauce', '8.50', ''),
+  ('Shish taouk', 'With tomato, pickles and garlic sauce', '9.50', ''),
+  ('Lahem meshwi', 'Lamb cubes with hommos, tomato, pickles and onion', '8.50', ''),
+  ('Kafta meshwi', 'Minced lamb with hommos, tomato, pickles and onion', '8.50', ''),
+  ('Chicken liver', 'With pomegranate molasses, garlic sauce and pickles', '8.25', ''),
+  ('Soujok', 'With garlic sauce and pickles', '8.50', 'hot'),
+ ]),
+ ('f-sides', 'Sides &amp; sauces', '', '', [
+  ('Fries', '', '5.75', 'vg'), ('White basmati rice', '', '5.50', 'vg'),
+  ('Lebanese vermicelli rice', '', '7.50', 'v'), ('Brown rice with minced lamb', '', '7.95', ''),
+  ('Garlic sauce', '', '2.25', 'vg'), ('Chilli sauce', '', '2.75', 'vg'), ('Tahini sauce', '', '2.75', 'vg'),
+ ]),
+ ('f-sweets', 'Desserts', 'حلويات', '', [
+  ('Mouhallabieh', 'Milk pudding with rosewater syrup and pistachio', '7.50', 'v'),
+  ('Rice pudding', 'With rosewater syrup and pistachio', '7.50', 'v'),
+  ('Baklawa', 'Miniature Lebanese pastries with nuts and syrup', '8.50', 'v'),
+ ]),
+ ('f-drinks', 'Soft drinks &amp; coffee', 'مشروبات', 'Cocktails and wine have their own lists', [
+  ('Fresh orange', '', '5.50', ''), ('Mango', '', '5.50', ''), ('Fresh lemonade', '', '5.50', ''), ('Fruit cocktail', '', '5.95', ''),
+  ('Laban ayran', 'Salted yoghurt drink', '4.50', ''), ('Soft drinks', 'Coca-Cola, Diet Coke, Coke Zero, 7UP, Fanta, tonic, ginger ale', '4.50', ''),
+  ('Still water', '', [('Small', '3.50'), ('Large', '4.50')], ''), ('Sparkling water', '', [('Small', '3.75'), ('Large', '4.75')], ''),
+  ('Lebanese coffee', '', '3.75', ''), ('Espresso', '', '3.75', ''), ('Double espresso', '', '4.50', ''),
+  ('Cappuccino, latte or flat white', '', '4.00', ''), ('Americano', '', '4.00', ''), ('Café mocha', '', '4.50', ''),
+  ('Iced coffee', '', '4.00', ''), ('Hot chocolate', '', '4.00', ''), ('Irish coffee', '', '11.00', ''),
+  ('Mint tea', '', '3.75', ''), ('English or peppermint tea', '', '3.75', ''),
  ]),
 ]
-SETS = [
- ('Lunch platter', 'Six starters with two skewers of chicken or kafta', '25'),
- ('Vegan sharing menu for two', 'A full spread of vegan mezze and mains', '65'),
- ('Sharing menu for two', 'Mezze, grills and dessert to share', '70'),
- ('Sharing menu for four', 'The full feast, with a bottle of house wine', '130'),
+SETS_FULL = [
+ ('Lunch platter', 'Hommos, moutabal, tabbouleh, falafel and cheese sambousek, then two skewers of shish taouk or kafta', '32'),
+ ('Vegan sharing menu for two', 'Hommos, moutabal, Maroush salad, falafel and batata harra, then aubergine casserole with rice and bammieh', '75'),
+ ('Sharing menu for two', 'Hommos, moutabal, tabbouleh, falafel, soujok and batata harra, then shish taouk and a Lebanese dessert', '85'),
+ ('Sharing menu for four', 'Eight mezze, then lamb shank with rice and the Maroush mixed grill, with dessert and mint tea', '160'),
 ]
 
-def menu_page():
-    tabs = ''.join(f'<a href="#{sid}">{t}</a>' for sid, t, _, _, _ in MENU)
+MENU_EVERY = [
+ ('e-cold', 'Cold mezze', 'مازة باردة', '', [
+  ('Hommos', 'Chickpeas, tahini, lemon and olive oil', '9.00', 'vg'),
+  ('Moutabal', 'Chargrilled aubergine, tahini and lemon', '9.75', 'vg'),
+  ('Warak inab', 'Vine leaves filled with rice and herbs', '9.00', 'vg'),
+  ('Hommos Beiruty', 'Chickpeas, tahini, parsley and green chilli', '9.25', 'vg'),
+  ('Moussaka', 'Aubergine, chickpeas and tomato', '9.75', 'vg'),
+  ('Labneh', 'Strained yoghurt, olive oil and dried mint', '8.75', 'v'),
+  ('Kabis', 'Pickled cucumber, turnip and chilli', '6.50', 'vg'),
+ ]),
+ ('e-hot', 'Hot mezze', 'مازة ساخنة', 'Most also come as a wrap', [
+  ('Falafel', 'Chickpea and fava bean croquettes with tahini', [('Wrap', '7.50'), ('Plate', '8.95')], 'vg'),
+  ('Batata harra', 'Spiced potatoes, garlic, coriander and chilli', [('Wrap', '7.50'), ('Plate', '8.95')], 'vg'),
+  ('Halloumi meshwi', 'Chargrilled halloumi with tomato, lettuce and cucumber', [('Wrap', '8.50'), ('Plate', '10.50')], 'v'),
+  ('Soujok', 'Spicy sausages, tomato and fresh lemon', [('Wrap', '8.50'), ('Plate', '10.00')], ''),
+  ('Chicken liver', 'Pan-fried with lemon, garlic and pomegranate molasses', [('Wrap', '8.25'), ('Plate', '9.50')], ''),
+  ('Kibbeh', 'Lamb and bulgur croquettes with pine nuts', '9.95', ''),
+  ('Jawaneh', 'Chargrilled chicken wings, lemon and garlic', '8.50', ''),
+  ('Sambousek cheese', 'Crisp pastry filled with feta and thyme', '9.50', 'v'),
+  ('Sambousek lamb', 'Crisp pastry with lamb, cheese and pine nuts', '9.75', ''),
+  ('Lentil soup', 'Red lentils, cumin, crisp bread and lemon', '7.50', 'vg'),
+ ]),
+ ('e-shawarma', 'Shawarma', 'شاورما', 'Slowly roasted, freshly carved. Loaded hommos is hommos topped with shawarma.', [
+  ('Chicken shawarma', 'British chicken with lemon, garlic and Lebanese spices', [('Loaded hommos', '13.00'), ('Wrap', '8.50'), ('Plate', '18.50')], ''),
+  ('Lamb shawarma', 'British lamb with warm Lebanese spices', [('Loaded hommos', '14.50'), ('Wrap', '9.75'), ('Plate', '21.00')], ''),
+  ('Mixed shawarma', 'Our chicken and lamb shawarma together', [('Loaded hommos', '14.50'), ('Wrap', '9.75'), ('Plate', '20.00')], ''),
+ ]),
+ ('e-grill', 'Maroush grill', 'مشاوي', '', [
+  ('Shish taouk', 'Chicken skewers with garlic sauce', [('Wrap', '8.50'), ('Plate', '18.50')], ''),
+  ('Kafta meshwi', 'Seasoned minced lamb, onion and parsley', [('Wrap', '8.50'), ('Plate', '19.50')], ''),
+  ('Lahem meshwi', 'Grilled lamb cubes with tomato, onion and parsley', [('Wrap', '9.50'), ('Plate', '21.00')], ''),
+  ('Farrouj meshwi', 'Boneless baby chicken with lemon, garlic and herbs, with garlic sauce', '19.00', ''),
+  ('Lamb cutlets', 'Kastaleta with black pepper, thyme and fries', '22.00', ''),
+  ('Maroush mixed grill', 'Kafta, shish taouk and lamb cubes', '22.00', ''),
+ ]),
+ ('e-salads', 'Salads', 'سلطات', '', [
+  ('Tabbouleh', 'Parsley, tomato, bulgur, mint and lemon', '8.95', 'vg'),
+  ('Fattoush', 'Mixed salad with crisp bread, sumac and pomegranate', '9.50', 'vg'),
+  ('Maroush salad', 'Lettuce, tomato, cucumber, radish, onion and peppers with sumac and lemon', '8.95', 'vg'),
+ ]),
+ ('e-mains', 'Mains', 'أطباق رئيسية', '', [
+  ('Braised lamb shank', 'Braised lamb, gravy and aromatic lamb brown rice', '22.00', ''),
+  ('Aubergine &amp; chickpea casserole', 'Aubergine, chickpeas and tomato with white rice', '17.00', 'vg'),
+ ]),
+ ('e-sides', 'Sides &amp; sauces', '', '', [
+  ('Fries', '', '5.75', 'vg'), ('White basmati rice', '', '5.50', 'vg'), ('Lebanese vermicelli rice', '', '7.50', 'v'),
+  ('Garlic sauce', '', '2.25', 'vg'), ('Chilli sauce', '', '2.75', 'vg'), ('Tahini sauce', '', '2.75', 'vg'),
+ ]),
+ ('e-sweets', 'Desserts', 'حلويات', '', [
+  ('Lebanese baklawa', 'Mini Lebanese pastries with nuts and syrup', '8.50', 'v'),
+  ('Orange blossom mouhallabieh', 'Milk pudding with orange blossom and pistachio', '7.50', 'v'),
+  ('Rice pudding', 'With rosewater and pistachio', '7.50', 'v'),
+ ]),
+ ('e-drinks', 'Drinks', 'مشروبات', '', [
+  ('Fresh juices', 'Lebanese lemonade, fruit cocktail', '5.50', ''), ('Mango juice', '', '5.95', ''), ('Fresh orange juice', '', '4.50', ''),
+  ('Ayran', 'Yoghurt drink', '3.50', ''), ('Soft drinks', 'Coca-Cola, Diet Coke, Coke Zero, 7UP, 7UP Zero, Fanta', '4.00', ''),
+  ('Still water', '', [('Small', '3.75'), ('Large', '4.75')], ''), ('Sparkling water', '', [('Small', '3.50'), ('Large', '4.50')], ''),
+  ('Château Ksara wines', 'White Blanc de l’Observatoire, red Le Prieuré, rosé', [('125ml', '8'), ('175ml', '9.50'), ('Bottle', '29')], ''),
+  ('Lebanese beer', '', '7.50', ''), ('Al-Karram arak 53%', 'From the Bekaa Valley', [('125ml', '9'), ('18.7cl', '30')], ''),
+  ('Lebanese coffee', '', '3.75', ''), ('Espresso', '', '3.50', ''), ('Cappuccino or latte', '', '4.00', ''),
+  ('Americano or iced coffee', '', '3.75', ''), ('Mint or English breakfast tea', '', '3.50', ''),
+ ]),
+]
+SETS_EVERY = [
+ ('Chicken shawarma &amp; wings feast', 'Chicken shawarma and chargrilled wings with fries, two cheese sambousek, hommos, bread and sauces', '39'),
+ ('Maroush mezze platter', 'Hommos, moutabal, tabbouleh and labneh with four falafel, batata harra, pickles and bread', '30'),
+ ('Beirut sharing menu for two', 'Six hot and cold mezze, then chargrilled shish taouk with bread and sauces, finished with baklawa', '79'),
+]
+
+# Lunch offer, all restaurants. Baklawa removed at the client's request (Oct 2026).
+LUNCH = dict(two='14.95', three='19.95', when='Monday to Thursday, 11am to 3pm',
+  starters=[('Hommos', 'Chickpeas, tahini, lemon and garlic, with olive oil'), ('Moutabal', 'Smoky aubergine with tahini, lemon and sumac'),
+            ('Tabbouleh', 'Parsley, tomato, mint and bulgur with lemon'), ('Fattoush', 'Crisp salad with Lebanese bread, sumac and pomegranate'),
+            ('Labneh', 'Strained yoghurt with olive oil and dried mint'), ('Lentil soup', 'Red lentils with cumin, crispy bread and lemon'),
+            ('Falafel', 'Chickpea and broad bean croquettes with tahini'), ('Batata harra', 'Potatoes with garlic, coriander, chilli and lemon')],
+  mains=[('Chicken shawarma', 'British chicken, slowly roasted, with garlic sauce'), ('Shish taouk', 'Chargrilled chicken skewers with garlic sauce'),
+         ('Kafta meshwi', 'Chargrilled minced lamb with parsley and onion'), ('Farrouj meshwi', 'Boneless baby chicken with lemon, garlic and herbs'),
+         ('Aubergine &amp; chickpea casserole', 'With white basmati rice')],
+  premium=[('Lamb shawarma', 'British lamb with tahini sauce'), ('Mixed shawarma', 'Chicken and lamb shawarma'), ('Lahem meshwi', 'Chargrilled lamb cubes with sumac')],
+  desserts=[('Mouhallabieh', 'Orange blossom milk pudding with pistachio'), ('Rice pudding', 'With rosewater and pistachio')],
+)
+
+def price_html(p):
+    if isinstance(p, list):
+        return '<span class="pr multi">' + ''.join(f'<span><small>{l}</small>£{v}</span>' for l, v in p) + '</span>'
+    return f'<span class="pr">£{p}</span>'
+
+def marks_html(m):
+    out = ''
+    if 'vg' in m.split(): out += '<span class="mk vg" title="Vegan">VG</span>'
+    if 'v' in m.split(): out += '<span class="mk v" title="Vegetarian">V</span>'
+    if 'hot' in m.split(): out += '<span class="mk hot" title="Spicy">Spicy</span>'
+    return out
+
+def menu_sections(menu):
     secs = []
-    for sid, title, ar, note, items in MENU:
+    for sid, title, ar, note, items in menu:
         rows = []
-        for n, d, p, al, vg in items:
-            vgt = '<span class="vg" title="Vegan">VG</span>' if vg else ''
-            alt = f'<span class="al">{al}</span>' if al else ''
-            rows.append(f'<li><div class="mi-top"><b>{n}</b>{vgt}<span class="dots"></span><span class="pr">£{p}</span></div>{f"<p>{d}</p>" if d else ""}{alt}</li>')
+        for n, d, p, m in items:
+            multi = isinstance(p, list)
+            top = f'<div class="mi-top"><b>{n}</b>{marks_html(m)}' + ('' if multi else '<span class="dots"></span>' + price_html(p)) + '</div>'
+            rows.append(f'<li>{top}{f"<p>{d}</p>" if d else ""}{price_html(p) if multi else ""}</li>')
         secs.append(f'''<section class="msec" id="{sid}">
-        <div class="msec-h"><h2>{title}</h2><i>{ar}</i>{f'<span>{note}</span>' if note else ''}</div>
+        <div class="msec-h"><h2>{title}</h2>{f'<i>{ar}</i>' if ar else ''}{f'<span>{note}</span>' if note else ''}</div>
         <ul class="mlist">{''.join(rows)}</ul>
       </section>''')
-    sets = ''.join(f'<div class="setc"><b>{n}</b><p>{d}</p><span class="pr">£{p}</span></div>' for n, d, p in SETS)
+    return ''.join(secs)
+
+def sets_html(sets, sid):
+    cards = ''.join(f'<div class="setc"><b>{n}</b><p>{d}</p><span class="pr">£{p}</span></div>' for n, d, p in sets)
+    return f'''<section class="sets" id="{sid}">
+        <div class="msec-h"><h2>To share</h2><i>للمشاركة</i><span>The easiest way to try a bit of everything</span></div>
+        <div class="setgrid">{cards}</div>
+      </section>'''
+
+def lunch_html():
+    L = LUNCH
+    def col(title, items, extra=''):
+        li = ''.join(f'<li><b>{n}</b><p>{d}</p></li>' for n, d in items)
+        return f'<div class="lcol"><h3>{title}</h3><ul>{li}</ul>{extra}</div>'
+    prem = ''.join(f'<li><b>{n} <em>+£3</em></b><p>{d}</p></li>' for n, d in L['premium'])
+    return f'''<section class="lunch" id="lunch">
+      <div class="lunch-h">
+        <div><span class="label">Lunch offer · every Maroush</span><h2>Lunch, <span class="it">the Lebanese way</span></h2><p>{L['when']}. Choose a starter and main, or a main and dessert, or have all three.</p></div>
+        <div class="lprices"><div><b>£{L['two']}</b><span>Two courses</span></div><div><b>£{L['three']}</b><span>Three courses</span></div></div>
+      </div>
+      <div class="lcols">
+        {col('Starters', L['starters'])}
+        {col('Mains', L['mains'], f'<h4>Premium mains</h4><ul class="prem">{prem}</ul>')}
+        {col('Desserts', L['desserts'])}
+      </div>
+      <p class="lfine">Per person. Drinks are not included. A discretionary 12.5% service charge applies to dine-in. Please tell our team about any allergies before ordering.</p>
+    </section>'''
+
+def menu_page():
+    def tabs(menu, extra):
+        return ''.join(f'<a href="#{sid}">{re.sub("&amp;.*", "", t).strip()}</a>' for sid, t, _, _, _ in menu) + extra
+    full_names = ' &amp; '.join(V[k]['short'] for k in FULL_BRANCHES)
+    every_names = ', '.join(V[k]['short'] for k in EVERY_BRANCHES[:-1]) + ' and ' + V[EVERY_BRANCHES[-1]]['short']
     return crumbs(('', 'Menu')) + f'''<main>
   <section class="hero solo">
     <img class="hero-mark" src="assets/mark-cream.png" alt="" aria-hidden="true">
     <div class="wrap">
       <div class="hero-copy">
-        <div class="label">Food · drinks · wine</div>
+        <div class="label">Food · drinks · lunch · Christmas</div>
         <h1><span class="ln"><span class="it">The</span></span><span class="ln"><span>Menu</span></span></h1>
         <p class="hero-sub">Order lots and share everything. That’s the Lebanese way. Start with cold mezze, add a few hot dishes, then something from the charcoal grill.</p>
-        <div class="jump"><a href="{MENU_PDF['food']}" target="_blank" rel="noopener">Food PDF ↗</a><a href="{MENU_PDF['drinks']}" target="_blank" rel="noopener">Cocktails ↗</a><a href="{MENU_PDF['wine']}" target="_blank" rel="noopener">Wine ↗</a></div>
+        <div class="jump"><a href="#lunch">Lunch offer</a><a href="christmas.html">Christmas Day</a><a href="{MENU_PDF['drinks']}" target="_blank" rel="noopener">Cocktails ↗</a><a href="{MENU_PDF['wine']}" target="_blank" rel="noopener">Wine list ↗</a></div>
       </div>
     </div>
   </section>
-  <nav class="mtabs" aria-label="Menu sections"><div class="wrap">{tabs}<a href="#sets">Set menus</a></div></nav>
-  <div class="section menu-body">
-    <div class="wrap">
-      <section class="sets" id="sets">
-        <div class="msec-h"><h2>Set menus</h2><i>للمشاركة</i><span>The easiest way to try a bit of everything</span></div>
-        <div class="setgrid">{sets}</div>
-      </section>
-      {''.join(secs)}
-      <div class="mnote">
-        <p><b>VG</b> vegan. Allergens are listed under each dish. Our kitchens handle gluten, crustaceans, eggs, fish, peanuts, soya, milk, nuts, celery, mustard, sesame and molluscs, so we can’t guarantee any dish is free of them. Please tell your server about any allergy. Some meat dishes may contain bones.</p>
-        <p>Prices in pounds and include VAT. A discretionary 12.5% service charge is added to your bill. Menu shown is for Crockers Folly and Beauchamp Place; dishes and prices vary at other restaurants.</p>
-      </div>
-    </div>
+
+  <div class="mswitch" role="tablist" aria-label="Choose a restaurant menu"><div class="wrap">
+    <button type="button" role="tab" id="tab-full" aria-controls="menu-full" aria-selected="true" data-menu="full"><b>Restaurant menu</b><small>{full_names}</small></button>
+    <button type="button" role="tab" id="tab-every" aria-controls="menu-every" aria-selected="false" data-menu="every"><b>Everyday menu</b><small>{every_names}</small></button>
+  </div></div>
+
+  <div id="menu-full" class="mpanel" role="tabpanel" aria-labelledby="tab-full">
+    <nav class="mtabs" aria-label="Menu sections"><div class="wrap">{tabs(MENU_FULL, '<a href="#sets-full">To share</a>')}</div></nav>
+    <div class="section menu-body"><div class="wrap">
+      {sets_html(SETS_FULL, 'sets-full')}
+      {menu_sections(MENU_FULL)}
+    </div></div>
   </div>
+
+  <div id="menu-every" class="mpanel" role="tabpanel" aria-labelledby="tab-every" hidden>
+    <nav class="mtabs" aria-label="Menu sections"><div class="wrap">{tabs(MENU_EVERY, '<a href="#sets-every">To share</a>')}</div></nav>
+    <div class="section menu-body"><div class="wrap">
+      {sets_html(SETS_EVERY, 'sets-every')}
+      {menu_sections(MENU_EVERY)}
+    </div></div>
+  </div>
+
+  <div class="section menu-body" style="padding-top:0"><div class="wrap">
+    {lunch_html()}
+    <div class="xpromo">
+      <div><span class="label">Christmas Day</span><b>Festive set menu, £{XMAS_PRICE} a head</b><p>At Crockers Folly and upstairs at Beauchamp Place. Every other Maroush is open with its usual menu.</p></div>
+      <a class="btn btn-cream" href="christmas.html">See the Christmas menu <span class="ar">→</span></a>
+    </div>
+    <div class="mnote">
+      <p><b>VG</b> vegan · <b>V</b> vegetarian · <b>Spicy</b>. Our kitchens handle all 14 regulated allergens, so we can’t guarantee any dish is free of them. Please ask our team for allergen and calorie information and tell us about any allergy before ordering. Some meat dishes may contain small bones.</p>
+      <p>Prices in pounds, including VAT. A discretionary 12.5% service charge is added to your bill.</p>
+    </div>
+  </div></div>
 </main>'''
-PAGES['menu'] = ('Maroush Menu', "The Maroush menu: Lebanese cold and hot mezze, salads, charcoal grills, shawarma, wraps, desserts and set sharing menus, with prices and allergens.", menu_page())
+PAGES['menu'] = ('Maroush Menu', "The Maroush menu: Lebanese cold and hot mezze, shawarma, charcoal grills, wraps, desserts and sharing menus, plus the weekday lunch offer from £14.95 and the Christmas Day menu.", menu_page())
+
 
 # ---------------------------------------------------------------- about
 PAGES['about'] = ('Maroush Our Story', "The story of Maroush: Marouf and Houda Abouzaki opened London’s original Lebanese restaurant on Edgware Road in 1981. Our food, our hospitality and how we cook.",
@@ -850,7 +1060,89 @@ PAGES['crockers-folly'] = ('Maroush Crockers Folly',
   "Maroush at Crockers Folly, St John's Wood: Lebanese mezze, charcoal grills and cocktails in a grand Victorian pub. Open daily 12pm to 12am at 24 Aberdeen Place, NW8 8JR.",
   cf)
 
-ACTIVE = {'menu': 'menu.html', 'about': 'about.html', 'catering': 'catering.html', 'restaurants': 'restaurants.html', 'contact': 'contact.html'}
+def xmas_page():
+    usual = [k for k in V if k not in XMAS]
+    where = ''
+    for k, x in XMAS.items():
+        v = V[k]
+        where += f'''<article class="xwhere rv">
+          {ph(v['img'], v['name'], 'ph peak')}
+          <div class="label">{v['area']}</div>
+          <h3><a href="{k}.html">{x['where']}</a></h3>
+          <p>{x['note']}</p>
+          <dl><dt>Call</dt><dd class="sel">{v['phone']}</dd><dt>Email</dt><dd class="sel">{x['email']}</dd><dt>Address</dt><dd>{', '.join(v['addr'])}</dd></dl>
+          <div class="rcard-btns"><button class="btn btn-red" type="button" data-book>Book</button><a class="btn btn-line" href="{x['pdf']}" target="_blank" rel="noopener">Menu PDF ↗</a></div>
+        </article>'''
+    usual_cards = ''.join(f'<a class="other" href="{k}.html"><b>{V[k]["short"]}</b><small>{V[k]["area"]} · {V[k]["phone"]}</small><span class="tag">Usual menu</span></a>' for k in usual)
+    return crumbs(('', 'Christmas')) + f'''<main>
+  <section class="hero rest">
+    <img class="hero-mark" src="assets/mark-cream.png" alt="" aria-hidden="true">
+    <div class="wrap">
+      <div class="hero-copy">
+        <div class="label">Christmas Day 2026</div>
+        <h1 class="long"><span class="ln"><span class="it">A Lebanese</span></span><span class="ln"><span>Christmas</span></span></h1>
+        <p class="hero-sub">Every Maroush is open on Christmas Day. Book our festive set menu at Crockers Folly or upstairs at Beauchamp Place, or come in for our usual menu anywhere else.</p>
+        <div class="hero-btns"><button class="btn btn-cream" type="button" data-book>Book Christmas Day <span class="ar">→</span></button><a class="btn btn-ghost" href="#festive-menu">See the menu</a></div>
+      </div>
+      <div class="hero-art">
+        {ph('room-crockers', 'The chandeliered Lords Dining Room at Crockers Folly', 'ph peak', eager=True)}
+        <div class="stamp"><div><span>Set menu</span><b>£{XMAS_PRICE}</b><span>per person</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="festive-menu">
+    <div class="wrap">
+      <div class="head"><div><div class="label">The festive menu</div><h2>Four courses,<br><span class="it">one price</span></h2></div><p>Cold and hot mezze, the mixed grill or slow-braised lamb, and a rosewater milk pudding to finish.</p></div>
+      {xmas_menu_card()}
+    </div>
+  </section>
+
+  <section class="section lords" id="book">
+    <div class="wrap" style="display:block">
+      <div class="lords-copy" style="margin-bottom:40px"><div class="label">Where to book</div><h2>Two rooms,<br><span class="it">one feast</span></h2></div>
+      <div class="xwheres">{where}</div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="head"><div><div class="label">Also open</div><h2>Our usual menu,<br><span class="it">all day</span></h2></div><p>No festive menu, just Maroush as you know it. Walk in for mezze, shawarma and grills on Christmas Day.</p></div>
+      <div class="others">{usual_cards}</div>
+    </div>
+  </section>
+</main>'''
+PAGES['christmas'] = ('Maroush Christmas Day', f"Christmas Day at Maroush: a £{XMAS_PRICE} festive Lebanese set menu at Crockers Folly and Beauchamp Place, and every other Maroush open with its usual menu.", xmas_page())
+
+def offers_band():
+    L = LUNCH
+    return f'''<section class="section offers" style="padding-top:0">
+    <div class="wrap offer-grid">
+      <a class="offer lunch-o rv" href="menu.html#lunch">
+        <span class="label">Lunch offer · Mon–Thu, 11am–3pm</span>
+        <b>Two courses £{L['two']}<br>Three courses £{L['three']}</b>
+        <p>Hommos, falafel, shawarma, grills and more, at every Maroush.</p>
+        <span class="btn btn-cream">See the lunch menu →</span>
+      </a>
+      <a class="offer xmas-o rv" href="christmas.html">
+        <span class="label">Christmas Day</span>
+        <b>Open every restaurant.<br>Festive menu £{XMAS_PRICE}.</b>
+        <p>At Crockers Folly and Beauchamp Place. Book now, tables are limited.</p>
+        <span class="btn btn-red">See the Christmas menu →</span>
+      </a>
+    </div>
+  </section>'''
+
+PAGES['index'] = (PAGES['index'][0], PAGES['index'][1],
+  PAGES['index'][2].replace('<section class="section food" id="food"', offers_band() + '\n\n  <section class="section food" id="food"', 1)
+  .replace('<a href="menu.html">Full menu →</a>', '<a href="menu.html">Full menu →</a><a href="menu.html#lunch">Lunch offer →</a>'))
+_cf = PAGES['crockers-folly'][2]
+_cf = _cf.replace('<section class="section visit" id="visit">', xmas_band('crockers-folly') + '\n\n  <section class="section visit" id="visit">', 1)
+_cf = _cf.replace('<dl class="hours"><dt>Monday – Sunday</dt><dd>12pm – 12am</dd></dl>', '<dl class="hours"><dt>Monday – Sunday</dt><dd>12pm – 12am</dd><dt>Lunch offer</dt><dd><a href="menu.html#lunch">Mon–Thu until 3pm</a></dd><dt>Christmas Day</dt><dd>Open · <a href="#christmas">festive menu</a></dd></dl>')
+_cf = _cf.replace('<a href="menu.html">Full menu →</a>', '<a href="menu.html#menu-full">Full menu →</a><a href="menu.html#lunch">Lunch offer →</a>')
+PAGES['crockers-folly'] = (PAGES['crockers-folly'][0], PAGES['crockers-folly'][1], _cf)
+
+ACTIVE = {'christmas': 'christmas.html', 'menu': 'menu.html', 'about': 'about.html', 'catering': 'catering.html', 'restaurants': 'restaurants.html', 'contact': 'contact.html'}
 
 # ---------------------------------------------------------------- write
 def build():

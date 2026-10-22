@@ -49,3 +49,17 @@
     document.querySelectorAll('.msec,.sets').forEach(function(s){o.observe(s)});
   }
 })();
+
+/* Menu page: switch between the restaurant menu and the everyday menu */
+(function(){
+  var btns=document.querySelectorAll('.mswitch button');
+  if(!btns.length)return;
+  function show(which,scroll){
+    btns.forEach(function(b){var on=b.getAttribute('data-menu')===which;b.setAttribute('aria-selected',on?'true':'false');document.getElementById('menu-'+b.getAttribute('data-menu')).hidden=!on});
+    if(scroll){document.querySelector('.mswitch').scrollIntoView({behavior:'smooth',block:'start'})}
+  }
+  btns.forEach(function(b){b.addEventListener('click',function(){show(b.getAttribute('data-menu'))})});
+  var h=location.hash.slice(1);
+  if(h==='menu-every'||h.indexOf('e-')===0||h==='sets-every'){show('every',h==='menu-every')}
+  else if(h==='menu-full'){show('full',true)}
+})();
