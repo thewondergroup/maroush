@@ -158,8 +158,9 @@ def header(active=''):
         </div>
       </div>
       {nav_link('menu.html', 'Menu', active)}
+      {nav_link('private-dining.html', 'Private dining', active)}
+      {nav_link('catering.html', 'Catering', active)}
       {nav_link('about.html', 'Our story', active)}
-      {nav_link('catering.html', 'Events &amp; catering', active)}
     </nav>
     <div class="top-r">
       <a class="btn btn-ghost" href="{UBER}" target="_blank" rel="noopener">Delivery</a>
@@ -179,7 +180,9 @@ def header(active=''):
   <a href="christmas.html">Christmas</a>
   <a href="menu.html">Menu</a>
   <a href="about.html">Our story</a>
-  <a href="catering.html">Events</a>
+  <a href="lunch.html">Lunch offer</a>
+  <a href="private-dining.html">Private dining</a>
+  <a href="catering.html">Catering</a>
   <a href="contact.html">Contact</a>
   <a href="{UBER}" target="_blank" rel="noopener">Delivery</a>
 </div>
@@ -197,6 +200,8 @@ def footer():
         {''.join(f'<a href="{k}.html">{V[k]["name"]}</a>' for k in GO)}
       </div>
       <div class="foot-col"><h4>Visit</h4>
+        <a href="lunch.html">Lunch offer</a>
+        <a href="private-dining.html">Private dining</a>
         <a href="christmas.html">Christmas Day</a>
         <a href="menu.html">Menu</a>
         <a href="about.html">Our story</a>
@@ -223,8 +228,8 @@ def footer():
     {''.join(f'<a class="di" href="{k}.html#visit"><div><b>{V[k]["short"]}</b><small>{V[k]["area"]} · {V[k]["phone"]}</small></div><span class="ar">→</span></a>' for k in SIT)}
     <span class="label">No booking needed</span>
     <div class="di"><div><b>Edgware Road · Kings Road · High St Ken</b><small>Shawarma &amp; juice bars, walk in any time</small></div></div>
-    <span class="label">Large group or private party?</span>
-    <a class="di" href="catering.html"><div><b>Events &amp; catering</b><small>catering@maroush.com</small></div><span class="ar">→</span></a>
+    <span class="label">Large group or celebration?</span>
+    <a class="di" href="private-dining.html"><div><b>Private dining</b><small>The Lords Room and Beauchamp Place first floor</small></div><span class="ar">→</span></a>
   </aside>
 </div>
 <script src="assets/site.js"></script>
@@ -250,7 +255,7 @@ def menus_row(k=None, label='Menus'):
     return f'''<div class="menus">
         <span class="label">{label}</span>
         <a href="menu.html#{tab}">Full menu →</a>
-        <a href="menu.html#lunch">Lunch offer →</a>
+        <a href="lunch.html">Lunch offer →</a>
         <a href="{MENU_PDF['drinks']}" target="_blank" rel="noopener">Cocktails ↗</a>
         <a href="{MENU_PDF['wine']}" target="_blank" rel="noopener">Wine ↗</a>
       </div>'''
@@ -271,7 +276,7 @@ def others(exclude):
 def visit_band(k):
     v = V[k]
     hours = ''.join(f'<dt>{d}</dt><dd>{t}</dd>' for d, t in v['hours'])
-    hours += '<dt>Lunch offer</dt><dd><a href="menu.html#lunch">Mon–Thu until 3pm</a></dd>'
+    hours += '<dt>Lunch offer</dt><dd><a href="lunch.html">Mon–Thu until 3pm</a></dd>'
     hours += '<dt>Christmas Day</dt><dd>' + ('Open · <a href="#christmas">festive menu</a>' if k in XMAS else 'Open · usual menu') + '</dd>'
     q = 'Maroush ' + ' '.join(v['addr'])
     if v['kind'] == 'sit':
@@ -972,7 +977,7 @@ PAGES['catering'] = ('Maroush Events and Catering', "Lebanese catering and priva
         <h2>Tell us about<br><span class="it">your event</span></h2>
         <p>Pricing depends on your location, guest numbers and menu. Send us the details and we’ll come back with a free quote.</p>
         <dl class="contact-dl"><dt>Email</dt><dd class="sel">catering@maroush.com</dd><dt>Phone</dt><dd class="sel">020 7723 3666</dd></dl>
-        <p class="small">Planning dinner at Crockers Folly? See the <a href="crockers-folly.html#private-dining">Lords Dining Room</a>.</p>
+        <p class="small">Planning dinner in one of our restaurants? See <a href="private-dining.html">private dining</a>.</p>
       </div>
       {form('cateringForm', [
         field('c-name', 'Your name', req=True), field('c-email', 'Email', 'email', req=True),
@@ -1114,35 +1119,212 @@ def xmas_page():
 </main>'''
 PAGES['christmas'] = ('Maroush Christmas Day', f"Christmas Day at Maroush: a £{XMAS_PRICE} festive Lebanese set menu at Crockers Folly and Beauchamp Place, and every other Maroush open with its usual menu.", xmas_page())
 
-def offers_band():
+def home_lunch():
     L = LUNCH
-    return f'''<section class="section offers" style="padding-top:0">
-    <div class="wrap offer-grid">
-      <a class="offer lunch-o rv" href="menu.html#lunch">
-        <span class="label">Lunch offer · Mon–Thu, 11am–3pm</span>
-        <b>Two courses £{L['two']}<br>Three courses £{L['three']}</b>
-        <p>Hommos, falafel, shawarma, grills and more, at every Maroush.</p>
-        <span class="btn btn-cream">See the lunch menu →</span>
-      </a>
-      <a class="offer xmas-o rv" href="christmas.html">
-        <span class="label">Christmas Day</span>
-        <b>Open every restaurant.<br>Festive menu £{XMAS_PRICE}.</b>
-        <p>At Crockers Folly and Beauchamp Place. Book now, tables are limited.</p>
-        <span class="btn btn-red">See the Christmas menu →</span>
-      </a>
+    picks = lambda items, n: ', '.join(x[0] for x in items[:n])
+    return f"""<section class="section hlunch" id="lunch">
+    <div class="wrap hl-grid">
+      <div class="hl-copy">
+        <div class="label">Lunch offer · every Maroush</div>
+        <h2>Lunch,<br><span class="it">the Lebanese way</span></h2>
+        <p>Monday to Thursday, 11am to 3pm. Pick a starter and a main, or a main and a dessert, or treat yourself to all three.</p>
+        <div class="lprices big"><div><b>£{L['two']}</b><span>Two courses</span></div><div><b>£{L['three']}</b><span>Three courses</span></div></div>
+        <dl class="hl-list">
+          <dt>Starters</dt><dd>{picks(L['starters'], 8)}</dd>
+          <dt>Mains</dt><dd>{picks(L['mains'], 5)}, or lamb or mixed shawarma for £3 more</dd>
+          <dt>Desserts</dt><dd>{picks(L['desserts'], 2)}</dd>
+        </dl>
+        <div class="hero-btns"><a class="btn btn-red" href="lunch.html">See the lunch menu <span class="ar">→</span></a><button class="btn btn-line" type="button" data-book>Book a table</button></div>
+      </div>
+      <div class="hl-art rv">
+        {ph('mezze', 'Hommos and cold mezze', 'ph peak a1')}
+        {ph('shawarma-spit', 'Chicken shawarma carved from the spit', 'ph peak a2')}
+        <div class="hl-stamp"><span>From</span><b>£{L['two']}</b><span>Mon–Thu</span></div>
+      </div>
     </div>
-  </section>'''
+  </section>
+  <section class="xstrip">
+    <div class="wrap"><div class="xpromo">
+      <div><span class="label">Christmas Day</span><b>Every Maroush is open. Festive menu £{XMAS_PRICE}.</b><p>At Crockers Folly and upstairs at Beauchamp Place.</p></div>
+      <a class="btn btn-cream" href="christmas.html">See the Christmas menu <span class="ar">→</span></a>
+    </div></div>
+  </section>"""
 
-PAGES['index'] = (PAGES['index'][0], PAGES['index'][1],
-  PAGES['index'][2].replace('<section class="section food" id="food"', offers_band() + '\n\n  <section class="section food" id="food"', 1)
-  .replace('<a href="menu.html">Full menu →</a>', '<a href="menu.html">Full menu →</a><a href="menu.html#lunch">Lunch offer →</a>'))
+def home_private():
+    return f"""<section class="section hprivate" id="private-dining">
+    <div class="wrap hp-grid">
+      <div class="hp-art rv">
+        {ph('room-crockers', 'The Lords Dining Room at Crockers Folly', 'ph peak big')}
+        {ph('party', 'A celebration at Maroush', 'ph vid', video=True)}
+      </div>
+      <div class="hp-copy">
+        <div class="label">Private dining</div>
+        <h2>Your table,<br><span class="it">your celebration</span></h2>
+        <p>Birthdays, engagements, family gatherings and company dinners, hosted under the chandelier in the Lords Dining Room at Crockers Folly or upstairs at Beauchamp Place.</p>
+        <ul class="ticks"><li>A crystal chandelier, an original fireplace and a view of the chefs</li><li>Sharing feasts built around your guests</li><li>Drinks in the 1898 Bar or on the terrace first</li></ul>
+        <div class="hero-btns"><a class="btn btn-red" href="private-dining.html">Plan a private dinner <span class="ar">→</span></a><a class="btn btn-ghost" href="catering.html">Or we cater for you</a></div>
+      </div>
+    </div>
+  </section>"""
+
+_home = PAGES['index'][2]
+_home = _home.replace('<section class="section food" id="food"', home_lunch() + '\n\n  <section class="section food" id="food"', 1)
+_home = re.sub(r'<section class="section events" id="events">.*?</section>', home_private(), _home, count=1, flags=re.S)
+_home = _home.replace('<a href="menu.html">Full menu →</a>', '<a href="menu.html">Full menu →</a><a href="lunch.html">Lunch offer →</a>')
+PAGES['index'] = (PAGES['index'][0], PAGES['index'][1], _home)
+
+# ---------------------------------------------------------------- private dining page
+def private_page():
+    occ = ''.join(f'<span>{o}</span>' for o in ['Birthdays', 'Anniversaries', 'Engagements', 'Family gatherings', 'Company dinners', 'Christmas parties', 'Eid and Ramadan gatherings', 'Wakes and memorials'])
+    sets = ''.join(f'<div class="setc"><b>{n}</b><p>{d}</p><span class="pr">£{p}</span></div>' for n, d, p in SETS_FULL[1:])
+    return crumbs(('', 'Private dining')) + f"""<main>
+  <section class="hero rest">
+    <img class="hero-mark" src="assets/mark-cream.png" alt="" aria-hidden="true">
+    <div class="wrap">
+      <div class="hero-copy">
+        <div class="label">Private dining &amp; group bookings</div>
+        <h1><span class="ln"><span class="it">Gather at</span></span><span class="ln"><span>Maroush</span></span></h1>
+        <p class="hero-sub">Lebanese hospitality is made for a crowd. Bring your people together over a table full of mezze, a feast from the charcoal grill and a room that feels like your own.</p>
+        <div class="hero-btns"><a class="btn btn-cream" href="#enquire">Enquire now <span class="ar">→</span></a><a class="btn btn-ghost" href="#rooms">See the rooms</a></div>
+      </div>
+      <div class="hero-art">
+        {ph('room-crockers', 'The Lords Dining Room at Crockers Folly', 'ph peak', eager=True)}
+        <div class="stamp"><div><span>The</span><b>Lords</b><span>Room</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="head"><div><div class="label">Any occasion</div><h2>Something<br><span class="it">to celebrate?</span></h2></div><p>From an intimate family dinner to a full company night out, we plan the menu, the drinks and the timings with you.</p></div>
+      <div class="occ">{occ}</div>
+    </div>
+  </section>
+
+  <section class="section lords" id="rooms">
+    <div class="wrap">
+      <div class="lords-art rv">
+        {ph('room-crockers', 'The Lords Dining Room set for dinner', 'ph big peak')}
+        {ph('chef', 'A Maroush chef', 'ph chef')}
+      </div>
+      <div class="lords-copy">
+        <div class="label">Crockers Folly · St John’s Wood</div>
+        <h2>The Lords<br><span class="it">Dining Room</span></h2>
+        <p>Our grandest room, inside a magnificent Victorian pub. High ceilings, an original fireplace and a crystal chandelier, with a view of the chefs at work.</p>
+        <ul class="ticks"><li>Birthdays, celebrations and company dinners</li><li>Drinks in the 1898 Bar or on the terrace before you sit down</li><li>24 Aberdeen Place, NW8 8JR</li></ul>
+        <div class="hero-btns"><a class="btn btn-red" href="#enquire">Enquire about the Lords Room <span class="ar">→</span></a><a class="btn btn-line" href="crockers-folly.html">Visit Crockers Folly</a></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap split">
+      <div class="split-art rv">
+        {ph('kebab-platter', 'A Maroush mixed grill', 'ph big peak')}
+        {ph('bar-glass', 'A glass of fizz with mezze', 'ph small')}
+      </div>
+      <div class="split-copy">
+        <div class="label">Beauchamp Place · Knightsbridge</div>
+        <h2>The first-floor<br><span class="it">dining room</span></h2>
+        <p>Above the buzz of Knightsbridge, our first-floor dining room is made for big tables and long, late dinners. The kitchen stays open until 3am, and 4.30am Thursday to Saturday.</p>
+        <ul class="ticks"><li>Groups and late celebrations</li><li>Our full restaurant menu and sharing feasts</li><li>38 Beauchamp Place, SW3 1NU</li></ul>
+        <div class="hero-btns"><a class="btn btn-red" href="#enquire">Enquire about a group <span class="ar">→</span></a><a class="btn btn-line" href="beauchamp-place.html">Visit Beauchamp Place</a></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="head"><div><div class="label">Feasts for the table</div><h2>Everything<br><span class="it">in the middle</span></h2></div><p>Start from one of our sharing menus, or let our chefs build a menu around your guests, including vegan, vegetarian and children’s dishes.</p></div>
+      <div class="setgrid three">{sets}</div>
+      <div class="menus"><span class="label">Menus</span><a href="menu.html#menu-full">Restaurant menu →</a><a href="{MENU_PDF['wine']}" target="_blank" rel="noopener">Wine list ↗</a><a href="{MENU_PDF['drinks']}" target="_blank" rel="noopener">Cocktails ↗</a></div>
+    </div>
+  </section>
+
+  <section class="section hiw">
+    <div class="wrap">
+      <div class="head"><div><div class="label">How it works</div><h2>Three steps<br><span class="it">to the table</span></h2></div></div>
+      <ol class="steps">
+        <li><b>Tell us the plan</b><p>Send the date, the number of guests and the occasion using the form below, or call the restaurant.</p></li>
+        <li><b>Shape the menu</b><p>We come back with a menu and quote, and adjust it until it is exactly right for your guests.</p></li>
+        <li><b>Arrive and enjoy</b><p>Your room is set, the mezze is ready and our team looks after everything on the night.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="section gallery-s" style="padding-top:0">
+    <div class="wrap gallery">
+      {ph('stained-glass', 'The stained-glass windows at Crockers Folly', 'ph g1')}
+      {ph('party', 'A party night at Maroush', 'ph g2', video=True)}
+      {ph('terrace', 'The terrace at Crockers Folly', 'ph g3')}
+      {ph('bar-1898', 'Fizz at the 1898 Bar', 'ph g4')}
+      {ph('mezze-table', 'A table of mezze', 'ph g5')}
+    </div>
+  </section>
+
+  <section class="section lords" id="enquire">
+    <div class="wrap enquire">
+      <div class="enq-copy">
+        <div class="label">Enquire</div>
+        <h2>Tell us about<br><span class="it">your event</span></h2>
+        <p>We will come back to you with availability, menus and a quote. For a quick answer, call the restaurant directly.</p>
+        <dl class="contact-dl"><dt>Crockers Folly</dt><dd class="sel">020 7289 9898</dd><dt>Beauchamp Place</dt><dd class="sel">020 7581 5434</dd><dt>Email</dt><dd class="sel">hello@maroush.com</dd></dl>
+        <p class="small">Hosting at your own venue? See <a href="catering.html">events &amp; catering</a>.</p>
+      </div>
+      {form('privateForm', [
+        field('p-name', 'Your name', req=True), field('p-email', 'Email', 'email', req=True),
+        field('p-phone', 'Phone', 'tel', req=True), field('p-date', 'Date', 'date'),
+        field('p-guests', 'Number of guests', 'number'),
+        field('p-where', 'Where', 'select', opts=['Crockers Folly, Lords Dining Room', 'Beauchamp Place, first floor', 'Not sure yet']),
+        field('p-occasion', 'Occasion', 'select', opts=['Birthday', 'Anniversary', 'Engagement', 'Family gathering', 'Company dinner', 'Christmas party', 'Other'], full=True),
+        field('p-msg', 'Anything else?', 'textarea', full=True, ph_='Timings, dietary needs, budget, special touches'),
+      ], 'Send enquiry', 'hello@maroush.com')}
+    </div>
+  </section>
+</main>"""
+PAGES['private-dining'] = ('Maroush Private Dining', "Private dining and group bookings at Maroush: the chandeliered Lords Dining Room at Crockers Folly, St John's Wood, and the first-floor dining room at Beauchamp Place, Knightsbridge. Lebanese sharing feasts for any occasion.", private_page())
+
+# ---------------------------------------------------------------- lunch page
+def lunch_page():
+    cards = ''.join(f'<a class="other" href="{k}.html"><b>{V[k]["short"]}</b><small>{V[k]["area"]} · {V[k]["phone"]}</small><span class="tag {"book" if V[k]["kind"]=="sit" else ""}">{"Bookable" if V[k]["kind"]=="sit" else "Walk-in"}</span></a>' for k in V)
+    return crumbs(('menu.html', 'Menu'), ('', 'Lunch offer')) + f"""<main>
+  <section class="hero rest">
+    <img class="hero-mark" src="assets/mark-cream.png" alt="" aria-hidden="true">
+    <div class="wrap">
+      <div class="hero-copy">
+        <div class="label">Lunch offer · Monday to Thursday</div>
+        <h1><span class="ln"><span class="it">Lunch at</span></span><span class="ln"><span>Maroush</span></span></h1>
+        <p class="hero-sub">Two courses for £{LUNCH['two']} or three for £{LUNCH['three']}, Monday to Thursday from 11am to 3pm, at every Maroush in London.</p>
+        <div class="hero-btns"><a class="btn btn-cream" href="#lunch">See what’s on <span class="ar">→</span></a><button class="btn btn-ghost" type="button" data-book>Book a table</button></div>
+      </div>
+      <div class="hero-art">
+        {ph('mezze', 'Hommos and cold mezze', 'ph peak', eager=True)}
+        <div class="stamp"><div><span>From</span><b>£{LUNCH['two']}</b><span>Mon–Thu</span></div></div>
+      </div>
+    </div>
+  </section>
+  <div class="section menu-body" style="padding-top:0"><div class="wrap">
+    {lunch_html()}
+  </div></div>
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="head"><div><div class="label">Where</div><h2>At every<br><span class="it">Maroush</span></h2></div><p>Book at our restaurants, or walk in to our shawarma and juice bars.</p></div>
+      <div class="others six">{cards}</div>
+    </div>
+  </section>
+</main>"""
+PAGES['lunch'] = ('Maroush Lunch Offer', f"Maroush lunch offer: two courses for £{LUNCH['two']} or three courses for £{LUNCH['three']}, Monday to Thursday, 11am to 3pm, at every Maroush restaurant in London.", lunch_page())
+
 _cf = PAGES['crockers-folly'][2]
 _cf = _cf.replace('<section class="section visit" id="visit">', xmas_band('crockers-folly') + '\n\n  <section class="section visit" id="visit">', 1)
-_cf = _cf.replace('<dl class="hours"><dt>Monday – Sunday</dt><dd>12pm – 12am</dd></dl>', '<dl class="hours"><dt>Monday – Sunday</dt><dd>12pm – 12am</dd><dt>Lunch offer</dt><dd><a href="menu.html#lunch">Mon–Thu until 3pm</a></dd><dt>Christmas Day</dt><dd>Open · <a href="#christmas">festive menu</a></dd></dl>')
-_cf = _cf.replace('<a href="menu.html">Full menu →</a>', '<a href="menu.html#menu-full">Full menu →</a><a href="menu.html#lunch">Lunch offer →</a>')
+_cf = _cf.replace('<dl class="hours"><dt>Monday – Sunday</dt><dd>12pm – 12am</dd></dl>', '<dl class="hours"><dt>Monday – Sunday</dt><dd>12pm – 12am</dd><dt>Lunch offer</dt><dd><a href="lunch.html">Mon–Thu until 3pm</a></dd><dt>Christmas Day</dt><dd>Open · <a href="#christmas">festive menu</a></dd></dl>')
+_cf = _cf.replace('<a href="menu.html">Full menu →</a>', '<a href="menu.html#menu-full">Full menu →</a><a href="lunch.html">Lunch offer →</a>')
 PAGES['crockers-folly'] = (PAGES['crockers-folly'][0], PAGES['crockers-folly'][1], _cf)
 
-ACTIVE = {'christmas': 'christmas.html', 'menu': 'menu.html', 'about': 'about.html', 'catering': 'catering.html', 'restaurants': 'restaurants.html', 'contact': 'contact.html'}
+_cf2 = PAGES['crockers-folly'][2].replace('href="catering.html">Enquire about private dining','href="private-dining.html">Enquire about private dining')
+PAGES['crockers-folly'] = (PAGES['crockers-folly'][0], PAGES['crockers-folly'][1], _cf2)
+
+ACTIVE = {'private-dining': 'private-dining.html', 'lunch': 'menu.html', 'christmas': 'christmas.html', 'menu': 'menu.html', 'about': 'about.html', 'catering': 'catering.html', 'restaurants': 'restaurants.html', 'contact': 'contact.html'}
 
 # ---------------------------------------------------------------- write
 def build():
