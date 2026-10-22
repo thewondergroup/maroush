@@ -1,0 +1,503 @@
+<title>Maroush Homepage</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="The original Lebanese restaurant in London, since 1981. Sit-down restaurants in St John's Wood, Knightsbridge and Earls Court, plus shawarma and juice bars on Edgware Road, Kings Road and High Street Kensington.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=Instrument+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Reem+Kufi:wght@500&display=swap">
+<style>
+/* Layout: modern and graphic, led by Maroush red. Tall condensed display type echoes the
+   logo's upright letterforms; the logo's peaked silhouette becomes the frame for every photo.
+   Heritage comes through the serif italics, the Arabic and 1981, not through ornament. */
+:root{
+  --red:#dd2d04;
+  --red-deep:#b52403;
+  --ink:#16110f;
+  --ink-2:#241c19;
+  --paper:#fbf8f3;
+  --cream:#fff3e6;
+  --grey:#a69d93;
+  --muted:#6f655e;
+  --line:rgba(22,17,15,.12);
+
+  --display:"Big Shoulders Display","Bebas Neue","Arial Narrow",Impact,sans-serif;
+  --serif:"Instrument Serif","Iowan Old Style",Georgia,serif;
+  --body:"Instrument Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --arabic:"Reem Kufi","Geeza Pro","Noto Kufi Arabic",sans-serif;
+
+  --gl:max(20px, env(safe-area-inset-left, 0px));
+  --gr:max(20px, env(safe-area-inset-right, 0px));
+  --peak:polygon(50% 0,100% 18%,100% 100%,0 100%,0 18%);
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--paper)}
+a{color:inherit}
+img{max-width:100%;display:block}
+:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+.wrap{max-width:1280px;margin:0 auto;padding-left:var(--gl);padding-right:var(--gr)}
+h1,h2,h3{margin:0;font-family:var(--display);font-weight:800;text-transform:uppercase;line-height:.88;letter-spacing:.005em;text-wrap:balance}
+h2{font-size:clamp(52px,7.4vw,112px)}
+.it{font-family:var(--serif);font-style:italic;font-weight:400;text-transform:none;letter-spacing:-.01em}
+p{margin:0}
+.label{font:600 12px/1 var(--body);letter-spacing:.2em;text-transform:uppercase}
+
+.btn{display:inline-flex;align-items:center;gap:.55em;padding:16px 26px;border-radius:999px;font:600 14px/1 var(--body);letter-spacing:.06em;text-transform:uppercase;text-decoration:none;border:1.5px solid transparent;cursor:pointer;transition:transform .2s,background .2s,color .2s,border-color .2s}
+.btn:hover{transform:translateY(-2px)}
+.btn .ar{transition:transform .2s}
+.btn:hover .ar{transform:translateX(3px)}
+.btn-red{background:var(--red);color:var(--cream)}
+.btn-red:hover{background:var(--red-deep)}
+.btn-cream{background:var(--cream);color:var(--red)}
+.btn-ghost{border-color:currentColor;background:transparent}
+
+/* Photo frame: real photo over a patterned fallback, peaked like the logo */
+.ph{position:relative;overflow:hidden;background-color:var(--red-deep);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Cpath d='M24 4l5 15 15 5-15 5-5 15-5-15-15-5 15-5z' fill='none' stroke='%23fff3e6' stroke-opacity='.16'/%3E%3C/svg%3E")}
+.ph.dark{background-color:var(--ink-2)}
+.ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1s cubic-bezier(.2,.7,.2,1)}
+.peak{clip-path:var(--peak)}
+.ph video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.her-left{min-width:0;display:grid;gap:28px}
+.frontage{margin:0;display:grid;gap:10px}
+.frontage .ph{aspect-ratio:3/2;border-radius:6px}
+.frontage figcaption{font:600 11px/1.3 var(--body);letter-spacing:.18em;text-transform:uppercase;color:var(--grey)}
+
+/* Header */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:var(--paper);border-bottom:1px solid transparent;transition:border-color .3s}
+.top.scrolled{border-color:var(--line)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:20px;padding-block:12px}
+.top .logo img{height:52px;width:auto}
+.nav{display:flex;gap:34px}
+.nav a{font-family:var(--display);font-size:21px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;line-height:1;text-decoration:none;position:relative}
+.nav a::after{content:"";position:absolute;left:0;right:0;bottom:-4px;height:2px;background:var(--red);transform:scaleX(0);transform-origin:left;transition:transform .25s}
+.nav a:hover::after{transform:none}
+/* Mega menu */
+.nav{align-items:center}
+.has-mega{position:static}
+.has-mega>a{display:inline-flex;align-items:center;gap:6px}
+.has-mega>a .chev{width:9px;height:9px;border-right:2.5px solid currentColor;border-bottom:2.5px solid currentColor;transform:translateY(-3px) rotate(45deg);transition:transform .25s}
+.has-mega>a::before{content:"";position:absolute;left:-20px;right:-20px;top:100%;height:40px}
+.mega{position:absolute;left:0;right:0;top:100%;background:var(--paper);border-top:1px solid var(--line);box-shadow:0 30px 60px -20px rgba(22,17,15,.28);opacity:0;visibility:hidden;transform:translateY(-8px);transition:opacity .22s,transform .22s,visibility 0s linear .22s;z-index:49}
+.has-mega:hover .mega,.has-mega:focus-within .mega,.has-mega.open .mega{opacity:1;visibility:visible;transform:none;transition:opacity .22s,transform .22s,visibility 0s}
+.has-mega:hover>a .chev,.has-mega:focus-within>a .chev{transform:translateY(1px) rotate(225deg)}
+.mega-in{max-width:1280px;margin:0 auto;padding:36px var(--gr) 40px var(--gl);display:grid;grid-template-columns:1fr 1fr .8fr;gap:clamp(24px,3vw,48px)}
+.mcol{min-width:0}
+.mcol h4{margin:0 0 6px;display:flex;align-items:baseline;gap:10px;font:600 12px/1 var(--body);letter-spacing:.2em;text-transform:uppercase;color:var(--red)}
+.mcol h4 span{color:var(--muted);letter-spacing:.06em;text-transform:none;font-weight:500;font-size:13px}
+.mv{display:grid;grid-template-columns:1fr auto;gap:2px 16px;align-items:center;padding-block:16px;border-bottom:1px solid var(--line);text-decoration:none}
+.nav .mv::after{display:none}
+.nav .mv{font-family:var(--body);font-size:15px;font-weight:400;letter-spacing:0;text-transform:none;line-height:1.3}
+.mv b{font-family:var(--display);font-weight:800;font-size:30px;text-transform:uppercase;line-height:1;letter-spacing:.01em;transition:color .2s,transform .25s}
+.mv small{grid-column:1;font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.mv em{grid-row:1/3;grid-column:2;font:600 11.5px/1 var(--body);font-style:normal;letter-spacing:.12em;text-transform:uppercase;color:var(--red);opacity:0;transform:translateX(-6px);transition:opacity .2s,transform .2s}
+.mv:hover b{color:var(--red);transform:translateX(4px)}
+.mv:hover em{opacity:1;transform:none}
+.mfeat{position:relative;border-radius:10px;overflow:hidden;background:var(--red);color:var(--cream);display:flex;flex-direction:column;justify-content:flex-end;min-height:300px}
+.mfeat .ph{position:absolute;inset:0;border-radius:0}
+.mfeat .ph::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 30%,rgba(120,20,0,.85))}
+.mfeat-c{position:relative;z-index:2;padding:24px;display:grid;gap:14px;justify-items:start}
+.mfeat-c b{font-family:var(--display);font-weight:800;font-size:38px;text-transform:uppercase;line-height:.9}
+.mfeat .btn{padding:13px 20px;font-size:12.5px}
+.nav .mfeat a::after{display:none}
+.mnav small{font:600 11px/1 var(--body);letter-spacing:.2em;text-transform:uppercase;opacity:.75;margin-top:18px}
+.mnav a.sub{font-size:30px;opacity:.92}
+.top-r{display:flex;gap:10px;align-items:center}
+.top-r .btn{padding:13px 20px;font-size:12.5px}
+.menu-btn{display:none;background:none;border:1.5px solid var(--ink);border-radius:999px;padding:11px 16px;font:600 12px/1 var(--body);letter-spacing:.12em;text-transform:uppercase;cursor:pointer;color:var(--ink)}
+
+/* Hero */
+.hero{background:var(--red);color:var(--cream);position:relative;overflow:hidden}
+.hero .wrap{display:grid;grid-template-columns:1.25fr .75fr;gap:clamp(28px,5vw,72px);align-items:end;padding-block:clamp(40px,6vw,88px) clamp(48px,6vw,88px)}
+.hero-copy{min-width:0;position:relative;z-index:2}
+.hero .label{opacity:.85}
+.hero h1{font-size:clamp(60px,10vw,168px);margin-top:20px}
+.hero h1 .it{display:block;font-size:.62em;line-height:1;margin-bottom:.06em}
+.hero h1 .ln{display:block;overflow:hidden}
+.hero h1 .ln>span{display:inline-block;animation:rise 1s cubic-bezier(.2,.7,.2,1) both}
+.hero h1 .ln:nth-child(2)>span{animation-delay:.1s}
+.hero h1 .ln:nth-child(3)>span{animation-delay:.2s}
+.hero-sub{max-width:40ch;font-size:clamp(17px,1.4vw,19px);margin-top:26px;opacity:.92}
+.hero-btns{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
+.hero-art{position:relative;min-width:0}
+.hero-art .ph{aspect-ratio:3/4;background-color:var(--red-deep)}
+.hero-art .ph video{animation:zoom 16s ease-out both}
+.hero-mark{position:absolute;right:-6%;bottom:-14%;width:min(70vw,900px);opacity:.07;pointer-events:none;z-index:1}
+.stamp{position:absolute;left:-28px;bottom:36px;z-index:3;background:var(--ink);color:var(--cream);border-radius:50%;width:116px;height:116px;display:grid;place-content:center;text-align:center;transform:rotate(-8deg)}
+.stamp b{font-family:var(--display);font-weight:900;font-size:40px;line-height:.9;display:block}
+.stamp span{font:600 9.5px/1.3 var(--body);letter-spacing:.18em;text-transform:uppercase}
+
+.ticker{background:var(--ink);color:var(--cream);overflow:hidden;padding-block:16px}
+.ticker-track{display:flex;width:max-content;animation:scroll 50s linear infinite}
+.ticker span{font-family:var(--display);font-weight:600;font-size:22px;letter-spacing:.08em;text-transform:uppercase;padding-inline:22px;white-space:nowrap;display:inline-flex;align-items:center;gap:44px}
+.ticker span::after{content:"";width:9px;height:9px;background:var(--red);clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%)}
+.ticker i{font-family:var(--arabic);font-style:normal;color:var(--grey);font-size:18px}
+
+/* Two ways */
+.section{padding-block:clamp(72px,9vw,128px)}
+.head{display:flex;justify-content:space-between;align-items:end;gap:28px;flex-wrap:wrap;margin-bottom:clamp(36px,4.5vw,56px)}
+.head p{max-width:40ch;color:var(--muted)}
+.head .label{color:var(--red);margin-bottom:14px}
+.ways{display:grid;grid-template-columns:1fr 1fr;gap:clamp(14px,1.6vw,22px)}
+.way{border-radius:10px;overflow:hidden;display:flex;flex-direction:column;min-width:0}
+.way.sit{background:var(--red);color:var(--cream)}
+.way.go{background:var(--ink);color:var(--cream)}
+.way-top{display:grid;grid-template-columns:1fr 32%;gap:20px;padding:clamp(24px,3vw,40px) clamp(24px,3vw,40px) 0;align-items:end}
+.way-top>div{min-width:0}
+.way .label{opacity:.75}
+.way h3{font-size:clamp(42px,4.2vw,66px);margin-top:12px}
+.way-desc{margin-top:14px;opacity:.88;max-width:34ch}
+.way-top .ph{aspect-ratio:4/5}
+.venues{list-style:none;margin:28px 0 0;padding:0 clamp(24px,3vw,40px)}
+.venue{display:grid;grid-template-columns:1fr auto;gap:4px 16px;align-items:center;padding-block:18px;border-top:1px solid rgba(255,243,230,.22);text-decoration:none}
+.venue:hover .vn{transform:translateX(6px)}
+.vn{font-family:var(--display);font-weight:800;font-size:clamp(26px,2.4vw,32px);text-transform:uppercase;line-height:1;transition:transform .25s}
+.vm{grid-column:1;font-size:14px;opacity:.75;font-variant-numeric:tabular-nums}
+.vc{grid-row:1/3;grid-column:2;font:600 12px/1 var(--body);letter-spacing:.12em;text-transform:uppercase;border:1.5px solid rgba(255,243,230,.5);border-radius:999px;padding:11px 16px;white-space:nowrap}
+.venue:hover .vc{background:var(--cream);color:var(--ink);border-color:var(--cream)}
+.way.sit .venue:hover .vc{color:var(--red)}
+.way-foot{margin-top:auto;padding:24px clamp(24px,3vw,40px) clamp(24px,3vw,36px);display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;border-top:1px solid rgba(255,243,230,.22)}
+.way-foot small{opacity:.75;font-size:14px}
+
+/* Food */
+.food{background:var(--paper)}
+.strip{display:grid;grid-auto-flow:column;grid-auto-columns:clamp(220px,22vw,300px);gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:14px;scrollbar-width:thin}
+.dish{scroll-snap-align:start;margin:0;display:grid;gap:12px}
+.dish .ph{aspect-ratio:3/4}
+.dish:hover img{transform:scale(1.05)}
+.dish figcaption{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.dish b{font-family:var(--display);font-weight:800;font-size:26px;text-transform:uppercase;line-height:1}
+.dish i{font-family:var(--arabic);font-style:normal;color:var(--red);font-size:18px}
+.menus{display:flex;flex-wrap:wrap;gap:10px;margin-top:36px;align-items:center}
+.menus .label{margin-right:10px;color:var(--muted)}
+.menus a{display:inline-flex;gap:10px;align-items:center;padding:14px 22px;border:1.5px solid var(--ink);border-radius:999px;text-decoration:none;font-weight:600;font-size:15px;transition:background .2s,color .2s}
+.menus a:hover{background:var(--ink);color:var(--cream)}
+
+/* Heritage */
+.heritage{background:var(--ink);color:var(--cream);overflow:hidden}
+.her-grid{display:grid;grid-template-columns:auto 1fr;gap:clamp(32px,6vw,96px);align-items:center}
+.year{font-family:var(--display);font-weight:900;font-size:clamp(150px,24vw,360px);line-height:.78;color:transparent;-webkit-text-stroke:2px var(--red);letter-spacing:-.01em}
+.year small{display:block;-webkit-text-stroke:0;color:var(--grey);font:600 12px/1.4 var(--body);letter-spacing:.2em;text-transform:uppercase;margin-top:22px}
+.her-copy{min-width:0;display:grid;gap:22px}
+.her-copy h2{font-size:clamp(46px,6vw,92px)}
+.her-copy h2 .it{color:var(--red)}
+.her-copy p{max-width:50ch;color:rgba(255,243,230,.78);font-size:18px}
+.press{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(16px,2.4vw,36px);margin-top:clamp(56px,7vw,96px);padding-top:32px;border-top:1px solid rgba(255,243,230,.16)}
+.press blockquote{margin:0;display:flex;flex-direction:column;gap:14px;min-width:0}
+.press q{font-family:var(--serif);font-style:italic;font-size:clamp(22px,2vw,28px);line-height:1.15;quotes:"“" "”"}
+.press cite{font:600 11.5px/1 var(--body);font-style:normal;letter-spacing:.18em;text-transform:uppercase;color:var(--red);margin-top:auto}
+
+/* Events */
+.events{background:var(--paper)}
+.ev{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(24px,4vw,64px);align-items:center}
+.ev .ph{aspect-ratio:5/4}
+.ev-copy{min-width:0;display:grid;gap:18px;justify-items:start}
+.ev-copy .label{color:var(--red)}
+.ev-copy h2{font-size:clamp(46px,5.6vw,84px)}
+.ev-copy p{color:var(--muted);max-width:44ch}
+
+/* Footer */
+footer{background:var(--red);color:var(--cream)}
+.foot{display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;gap:36px;padding-block:clamp(56px,7vw,96px) 36px}
+.foot-logo img{width:min(280px,70%)}
+.foot-col{display:flex;flex-direction:column;gap:9px;font-size:15px;min-width:0}
+.foot-col h4{margin:0 0 6px;font:600 11.5px/1 var(--body);letter-spacing:.2em;text-transform:uppercase;opacity:.7}
+.foot-col a{text-decoration:none}
+.foot-col a:hover{text-decoration:underline}
+.sel{user-select:all}
+.foot-base{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;padding-block:22px;border-top:1px solid rgba(255,243,230,.25);font-size:13px;opacity:.85}
+
+/* Booking drawer + mobile menu */
+.scrim{position:fixed;inset:0;background:rgba(22,17,15,.5);z-index:80;opacity:0;pointer-events:none;transition:opacity .3s}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(460px,100%);z-index:90;background:var(--paper);transform:translateX(100%);transition:transform .45s cubic-bezier(.2,.7,.2,1);overflow-y:auto;padding:calc(28px + env(safe-area-inset-top,0px)) max(28px,env(safe-area-inset-right,0px)) calc(28px + env(safe-area-inset-bottom,0px)) 28px}
+.open .scrim{opacity:1;pointer-events:auto}
+.open .drawer{transform:none}
+.dh{display:flex;justify-content:space-between;align-items:start;gap:16px}
+.dh h3{font-size:52px}
+.x{width:44px;height:44px;border-radius:50%;border:1.5px solid var(--ink);background:none;font-size:22px;cursor:pointer;flex:none;color:var(--ink)}
+.drawer .label{color:var(--red);margin:28px 0 10px;display:block}
+.di{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:16px 18px;border:1.5px solid var(--line);border-radius:8px;text-decoration:none;margin-bottom:8px;transition:border-color .2s}
+a.di:hover{border-color:var(--red)}
+.di b{font-family:var(--display);font-weight:800;font-size:26px;text-transform:uppercase;display:block;line-height:1}
+.di small{color:var(--muted);font-size:13.5px}
+.di .ar{color:var(--red);font-size:20px}
+.mnav{display:none;position:fixed;inset:0;z-index:70;background:var(--red);color:var(--cream);flex-direction:column;justify-content:flex-start;gap:6px;overflow-y:auto;padding-block:calc(76px + env(safe-area-inset-top,0px)) 40px;padding-left:var(--gl);padding-right:var(--gr)}
+.mnav.show{display:flex}
+.mnav a{font-family:var(--display);font-weight:800;font-size:44px;text-transform:uppercase;text-decoration:none;line-height:1.05}
+.mnav .x{position:absolute;top:calc(18px + env(safe-area-inset-top,0px));right:max(20px,env(safe-area-inset-right,0px));border-color:var(--cream);color:var(--cream)}
+
+@keyframes rise{from{transform:translateY(105%)}to{transform:none}}
+@keyframes zoom{from{transform:scale(1.12)}to{transform:none}}
+@keyframes scroll{to{transform:translateX(-50%)}}
+.rv{transition:transform .9s cubic-bezier(.2,.7,.2,1)}
+.rv.wait{transform:translateY(30px)}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.rv.wait{transform:none}}
+
+@media (max-width:1040px){
+  .nav{display:none}.menu-btn{display:inline-block}
+  .ways{grid-template-columns:1fr}
+  .press{grid-template-columns:1fr 1fr}
+  .foot{grid-template-columns:1fr 1fr}.foot-logo{grid-column:1/-1}
+}
+@media (max-width:760px){
+  .hero .wrap,.her-grid,.ev{grid-template-columns:1fr}
+  .hero-art{width:78%;max-width:400px;margin-left:auto}
+  .stamp{width:96px;height:96px;left:-18px}.stamp b{font-size:32px}
+  .top .logo img{height:42px}
+  .top-r .btn-ghost{display:none}
+  .way-top{grid-template-columns:1fr}
+  .way-top .ph{aspect-ratio:16/10;clip-path:polygon(50% 0,100% 26%,100% 100%,0 100%,0 26%)}
+}
+@media (max-width:520px){
+  body{font-size:16px}
+  .press,.foot{grid-template-columns:1fr}
+  .vc{padding:10px 13px}
+}
+</style>
+
+<header class="top" id="top">
+  <div class="wrap">
+    <a class="logo" href="#" aria-label="Maroush home"><img src="assets/logo-red.png" alt="Maroush, Lebanese cuisine since 1981"></a>
+    <nav class="nav" aria-label="Main">
+      <div class="has-mega">
+        <a href="#restaurants" aria-haspopup="true">Restaurants <span class="chev" aria-hidden="true"></span></a>
+        <div class="mega">
+          <div class="mega-in">
+            <div class="mcol">
+              <h4>Sit down <span>Mezze, grills, wine · bookable</span></h4>
+              <a class="mv" href="https://www.maroush.com/restaurants/maroush-at-crockers-folly/"><b>Crockers Folly</b><small>St John's Wood · Daily 12pm–12am</small><em>Book →</em></a>
+              <a class="mv" href="https://www.maroush.com/restaurants/beauchamp-place/"><b>Beauchamp Place</b><small>Knightsbridge · Until 3am, 4.30am Thu–Sat</small><em>Book →</em></a>
+              <a class="mv" href="https://www.maroush.com/restaurants/earls-court/"><b>Earls Court</b><small>Earls Court · From 8am daily</small><em>Book →</em></a>
+            </div>
+            <div class="mcol">
+              <h4>Grab &amp; go <span>Shawarma &amp; juice · walk in</span></h4>
+              <a class="mv" href="https://www.maroush.com/restaurants/edgware-road/"><b>Edgware Road</b><small>Marble Arch · Daily 9am–3am</small><em>Visit →</em></a>
+              <a class="mv" href="https://www.maroush.com/restaurants/kings-road/"><b>Kings Road</b><small>Chelsea · Daily 12pm–1am</small><em>Visit →</em></a>
+              <a class="mv" href="https://www.maroush.com/restaurants/high-street-kensington/"><b>High Street Ken</b><small>Kensington · Daily 12pm–2am</small><em>Visit →</em></a>
+            </div>
+            <div class="mfeat">
+              <div class="ph"><video src="assets/crockers.mp4" poster="assets/crockers.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Maroush at Crockers Folly"></video></div>
+              <div class="mfeat-c">
+                <b>The original,<br>since 1981</b>
+                <button class="btn btn-cream" type="button" data-book>Book a table →</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <a href="#food">Menu</a>
+      <a href="#heritage">Since 1981</a>
+      <a href="#events">Events &amp; catering</a>
+    </nav>
+    <div class="top-r">
+      <a class="btn btn-ghost" href="https://www.ubereats.com/gb/brand-city/london-eng/maroush" target="_blank" rel="noopener">Delivery</a>
+      <button class="btn btn-red" type="button" data-book>Book a table</button>
+      <button class="menu-btn" type="button" id="menuBtn">Menu</button>
+    </div>
+  </div>
+</header>
+
+<div class="mnav" id="mnav" role="dialog" aria-label="Menu">
+  <button class="x" type="button" id="menuX" aria-label="Close menu">×</button>
+  <small>Sit down</small>
+  <a class="sub" href="https://www.maroush.com/restaurants/maroush-at-crockers-folly/">Crockers Folly</a>
+  <a class="sub" href="https://www.maroush.com/restaurants/beauchamp-place/">Beauchamp Place</a>
+  <a class="sub" href="https://www.maroush.com/restaurants/earls-court/">Earls Court</a>
+  <small>Grab &amp; go</small>
+  <a class="sub" href="https://www.maroush.com/restaurants/edgware-road/">Edgware Road</a>
+  <a class="sub" href="https://www.maroush.com/restaurants/kings-road/">Kings Road</a>
+  <a class="sub" href="https://www.maroush.com/restaurants/high-street-kensington/">High Street Ken</a>
+  <small>More</small>
+  <a href="#food">Menu</a>
+  <a href="#events">Events</a>
+  <a href="https://www.ubereats.com/gb/brand-city/london-eng/maroush" target="_blank" rel="noopener">Delivery</a>
+</div>
+
+<main>
+  <section class="hero">
+    <img class="hero-mark" src="assets/mark-cream.png" alt="" aria-hidden="true">
+    <div class="wrap">
+      <div class="hero-copy">
+        <div class="label">Lebanese cuisine · London · since 1981</div>
+        <h1>
+          <span class="ln"><span class="it">The original</span></span>
+          <span class="ln"><span>Lebanese</span></span>
+          <span class="ln"><span>in London</span></span>
+        </h1>
+        <p class="hero-sub">Mezze, charcoal grills and shawarma, made the same way since 1981. Book a table, grab a wrap, or have it delivered.</p>
+        <div class="hero-btns">
+          <button class="btn btn-cream" type="button" data-book>Book a table <span class="ar">→</span></button>
+          <a class="btn btn-ghost" href="https://www.ubereats.com/gb/brand-city/london-eng/maroush" target="_blank" rel="noopener">Order delivery</a>
+        </div>
+      </div>
+      <div class="hero-art">
+        <div class="ph peak"><video src="assets/hero-feast.mp4" poster="assets/hero-feast.jpg" autoplay muted loop playsinline preload="auto" aria-label="A Maroush host serving mezze at the table"></video></div>
+        <div class="stamp"><div><span>Est.</span><b>1981</b><span>Edgware Rd</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="ticker" aria-hidden="true"><div class="ticker-track">
+    <span>Hommos <i>حمص</i></span><span>Moutabal</span><span>Tabbouleh <i>تبولة</i></span><span>Fattoush</span><span>Shish taouk</span><span>Kafta <i>كفتة</i></span><span>Shawarma <i>شاورما</i></span><span>Lamb chops</span><span>Fresh juice</span>
+    <span>Hommos <i>حمص</i></span><span>Moutabal</span><span>Tabbouleh <i>تبولة</i></span><span>Fattoush</span><span>Shish taouk</span><span>Kafta <i>كفتة</i></span><span>Shawarma <i>شاورما</i></span><span>Lamb chops</span><span>Fresh juice</span>
+  </div></div>
+
+  <section class="section" id="restaurants">
+    <div class="wrap">
+      <div class="head">
+        <div><div class="label">Six in London</div><h2>Two ways<br>to <span class="it">eat</span></h2></div>
+        <p>Settle in for mezze and a bottle of Lebanese wine, or drop by for a shawarma and a fresh juice on the way home.</p>
+      </div>
+      <div class="ways">
+        <article class="way sit rv">
+          <div class="way-top">
+            <div>
+              <div class="label">Sit down</div>
+              <h3>Restaurants</h3>
+              <p class="way-desc">Hot and cold mezze, charcoal grills and Lebanese wine. Book ahead, stay late.</p>
+            </div>
+            <div class="ph peak"><img src="assets/room-crockers.webp" alt="The dining room at Maroush, Crockers Folly" loading="lazy"></div>
+          </div>
+          <ul class="venues">
+            <li><a class="venue" href="https://www.maroush.com/restaurants/maroush-at-crockers-folly/"><span class="vn">Crockers Folly</span><span class="vm">St John's Wood · Daily 12pm–12am</span><span class="vc">Book</span></a></li>
+            <li><a class="venue" href="https://www.maroush.com/restaurants/beauchamp-place/"><span class="vn">Beauchamp Place</span><span class="vm">Knightsbridge · Open until 3am, 4.30am Thu–Sat</span><span class="vc">Book</span></a></li>
+            <li><a class="venue" href="https://www.maroush.com/restaurants/earls-court/"><span class="vn">Earls Court</span><span class="vm">Earls Court · From 8am, until 1am Thu–Sat</span><span class="vc">Book</span></a></li>
+          </ul>
+          <div class="way-foot"><small>Private dining at Crockers Folly</small><button class="btn btn-cream" type="button" data-book>Book a table <span class="ar">→</span></button></div>
+        </article>
+        <article class="way go rv">
+          <div class="way-top">
+            <div>
+              <div class="label">Grab &amp; go</div>
+              <h3>Shawarma<br>&amp; juice</h3>
+              <p class="way-desc">Wraps, shawarma, fresh juice and Arabic coffee. No booking, just walk in. Open late.</p>
+            </div>
+            <div class="ph dark peak"><video src="assets/wraps.mp4" poster="assets/wraps.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Wraps being made at the counter"></video></div>
+          </div>
+          <ul class="venues">
+            <li><a class="venue" href="https://www.maroush.com/restaurants/edgware-road/"><span class="vn">Edgware Road</span><span class="vm">Marble Arch · Daily 9am–3am</span><span class="vc">Find us</span></a></li>
+            <li><a class="venue" href="https://www.maroush.com/restaurants/kings-road/"><span class="vn">Kings Road</span><span class="vm">Chelsea · Daily 12pm–1am</span><span class="vc">Find us</span></a></li>
+            <li><a class="venue" href="https://www.maroush.com/restaurants/high-street-kensington/"><span class="vn">High Street Ken</span><span class="vm">Kensington · Daily 12pm–2am</span><span class="vc">Find us</span></a></li>
+          </ul>
+          <div class="way-foot"><small>Or have it delivered</small><a class="btn btn-red" href="https://www.ubereats.com/gb/brand-city/london-eng/maroush" target="_blank" rel="noopener">Order delivery <span class="ar">→</span></a></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section food" id="food" style="padding-top:0">
+    <div class="wrap">
+      <div class="head">
+        <div><div class="label">On the table</div><h2>Made <span class="it">fresh</span><br>every day</h2></div>
+        <p>Cold mezze to start, then the grill. Bread arrives warm and keeps coming.</p>
+      </div>
+      <div class="strip" tabindex="0" aria-label="Dishes">
+        <figure class="dish"><div class="ph peak"><img src="assets/mezze.webp" alt="Cold mezze" loading="lazy"></div><figcaption><b>Cold mezze</b><i>مازة</i></figcaption></figure>
+        <figure class="dish"><div class="ph peak"><img src="assets/shawarma-carving.webp" alt="Shawarma" loading="lazy"></div><figcaption><b>Shawarma</b><i>شاورما</i></figcaption></figure>
+        <figure class="dish"><div class="ph peak"><img src="assets/mixed-grill.webp" alt="Mixed grill" loading="lazy"></div><figcaption><b>Mixed grill</b><i>مشاوي</i></figcaption></figure>
+        <figure class="dish"><div class="ph peak"><img src="assets/charcoal.webp" alt="Charcoal grill" loading="lazy"></div><figcaption><b>Charcoal grill</b><i>فحم</i></figcaption></figure>
+        <figure class="dish"><div class="ph peak"><img src="assets/lamb-shank.webp" alt="Lamb shank" loading="lazy"></div><figcaption><b>Lamb shank</b><i>موزة</i></figcaption></figure>
+        <figure class="dish"><div class="ph peak"><img src="assets/kibbeh.webp" alt="Kibbeh" loading="lazy"></div><figcaption><b>Kibbeh</b><i>كبة</i></figcaption></figure>
+        <figure class="dish"><div class="ph peak"><img src="assets/fattoush.webp" alt="Fattoush" loading="lazy"></div><figcaption><b>Fattoush</b><i>فتوش</i></figcaption></figure>
+        <figure class="dish"><div class="ph peak"><img src="assets/wine.webp" alt="Lebanese wine" loading="lazy"></div><figcaption><b>Lebanese wine</b><i>نبيذ</i></figcaption></figure>
+      </div>
+      <div class="menus">
+        <span class="label">Menus</span>
+        <a href="https://www.maroush.com/wp-content/uploads/2024/07/Maroush-House-Menu-Sept-2022-with-sandwishes8pp-1.pdf" target="_blank" rel="noopener">Food ↗</a>
+        <a href="https://www.maroush.com/wp-content/uploads/2024/07/Cocktail-menu-October-23-1.pdf" target="_blank" rel="noopener">Drinks ↗</a>
+        <a href="https://www.maroush.com/wp-content/uploads/2026/02/V2-Wine-List-Feb-2026.pdf" target="_blank" rel="noopener">Wine ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section heritage" id="heritage">
+    <div class="wrap">
+      <div class="her-grid">
+        <div class="her-left rv"><div class="year">1981<small>The first Maroush<br>opens on Edgware Road</small></div><figure class="frontage"><div class="ph dark"><img src="assets/frontage.webp" alt="The Maroush frontage with its blue awnings" loading="lazy"></div><figcaption>The Maroush frontage</figcaption></figure></div>
+        <div class="her-copy">
+          <h2>London's <span class="it">first taste</span> of Beirut</h2>
+          <p>Marouf and Houda Abouzaki opened Maroush on Edgware Road in 1981 and helped make that street the home of Lebanese food in London. Forty-five years later it is still a family table, a late-night ritual and the place Londoners go for the real thing.</p>
+          <div><a class="btn btn-red" href="https://www.maroush.com/about/">Our story <span class="ar">→</span></a></div>
+        </div>
+      </div>
+      <div class="press">
+        <blockquote class="rv"><q>Dazzlingly fresh, beguilingly fragrant, exotic yet earthy.</q><cite>AA Gill</cite></blockquote>
+        <blockquote class="rv"><q>Among the best meat-based meals I have ever eaten.</q><cite>Time Out</cite></blockquote>
+        <blockquote class="rv"><q>Unbelievably good.</q><cite>The Times</cite></blockquote>
+        <blockquote class="rv"><q>Absolutely worth the journey.</q><cite>The Guardian</cite></blockquote>
+      </div>
+    </div>
+  </section>
+
+  <section class="section events" id="events">
+    <div class="wrap ev">
+      <div class="ph peak rv"><video src="assets/party.mp4" poster="assets/party.jpg" autoplay muted loop playsinline preload="metadata" aria-label="A party night at Maroush"></video></div>
+      <div class="ev-copy">
+        <div class="label">Events &amp; catering</div>
+        <h2>Feed the<br><span class="it">whole party</span></h2>
+        <p>Weddings, corporate dinners and private parties, catered at your venue or hosted in the Lords Room at Crockers Folly.</p>
+        <a class="btn btn-red" href="https://www.maroush.com/catering/">Make an enquiry <span class="ar">→</span></a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div class="foot-logo"><img src="assets/logo-cream.png" alt="Maroush, Lebanese cuisine since 1981"></div>
+      <div class="foot-col"><h4>Restaurants</h4>
+        <a href="https://www.maroush.com/restaurants/maroush-at-crockers-folly/">Crockers Folly</a>
+        <a href="https://www.maroush.com/restaurants/beauchamp-place/">Beauchamp Place</a>
+        <a href="https://www.maroush.com/restaurants/earls-court/">Earls Court</a>
+      </div>
+      <div class="foot-col"><h4>Shawarma &amp; juice</h4>
+        <a href="https://www.maroush.com/restaurants/edgware-road/">Edgware Road</a>
+        <a href="https://www.maroush.com/restaurants/kings-road/">Kings Road</a>
+        <a href="https://www.maroush.com/restaurants/high-street-kensington/">High Street Kensington</a>
+      </div>
+      <div class="foot-col"><h4>Say hello</h4>
+        <span class="sel">hello@maroush.com</span>
+        <span class="sel">020 7723 3666</span>
+        <a href="https://www.instagram.com/maroush/" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://www.facebook.com/maroushgroup" target="_blank" rel="noopener">Facebook</a>
+      </div>
+    </div>
+    <div class="foot-base"><span>© Maroush 1981–2026</span><span>Halal · Vegetarian and gluten-free options</span></div>
+  </div>
+</footer>
+
+<div id="booking">
+  <div class="scrim" data-close></div>
+  <aside class="drawer" role="dialog" aria-modal="true" aria-labelledby="bkT">
+    <div class="dh"><h3 id="bkT">Book a table</h3><button class="x" type="button" data-close aria-label="Close">×</button></div>
+    <span class="label">Choose a restaurant</span>
+    <a class="di" href="https://www.maroush.com/restaurants/maroush-at-crockers-folly/"><div><b>Crockers Folly</b><small>St John's Wood · 020 7289 9898</small></div><span class="ar">→</span></a>
+    <a class="di" href="https://www.maroush.com/restaurants/beauchamp-place/"><div><b>Beauchamp Place</b><small>Knightsbridge · 020 7581 5434</small></div><span class="ar">→</span></a>
+    <a class="di" href="https://www.maroush.com/restaurants/earls-court/"><div><b>Earls Court</b><small>Earls Court · 020 4553 6694</small></div><span class="ar">→</span></a>
+    <span class="label">No booking needed</span>
+    <div class="di"><div><b>Edgware Road · Kings Road · High St Ken</b><small>Shawarma &amp; juice bars, walk in any time</small></div></div>
+  </aside>
+</div>
+
+<script>
+(function(){
+  var top=document.getElementById('top');
+  function s(){top.classList.toggle('scrolled',scrollY>10)}
+  addEventListener('scroll',s,{passive:true});s();
+  var bk=document.getElementById('booking'),mn=document.getElementById('mnav');
+  document.querySelectorAll('[data-book]').forEach(function(b){b.addEventListener('click',function(){mn.classList.remove('show');bk.classList.add('open')})});
+  bk.querySelectorAll('[data-close]').forEach(function(b){b.addEventListener('click',function(){bk.classList.remove('open')})});
+  document.getElementById('menuBtn').addEventListener('click',function(){mn.classList.add('show')});
+  document.getElementById('menuX').addEventListener('click',function(){mn.classList.remove('show')});
+  mn.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){mn.classList.remove('show')})});
+  addEventListener('keydown',function(e){if(e.key==='Escape'){bk.classList.remove('open');mn.classList.remove('show');if(document.activeElement)document.activeElement.blur()}});
+  document.querySelectorAll('.mega a,.mega button').forEach(function(a){a.addEventListener('click',function(){a.blur()})});
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches){document.querySelectorAll('video').forEach(function(v){v.removeAttribute('autoplay');v.pause()})}
+  if('IntersectionObserver' in window&&!matchMedia('(prefers-reduced-motion: reduce)').matches){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.remove('wait');io.unobserve(e.target)}})},{rootMargin:'0px 0px -8% 0px'});
+    document.querySelectorAll('.rv').forEach(function(el){if(el.getBoundingClientRect().top>innerHeight){el.classList.add('wait');io.observe(el)}});
+  }
+})();
+</script>
