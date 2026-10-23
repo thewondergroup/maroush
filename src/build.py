@@ -102,7 +102,14 @@ def xmas_band(k):
   </section>'''
 
 def announce():
-    return f'''<div class="announce"><div class="wrap"><span><b>Open on Christmas Day.</b> Festive set menu £{XMAS_PRICE} at Crockers Folly and Beauchamp Place.</span><a href="christmas.html">See the menu →</a></div></div>
+    return f'''<a class="announce" href="christmas.html" aria-label="Open on Christmas Day. Festive set menu £{XMAS_PRICE}. See the Christmas menu">
+  <div class="wrap">
+    <span class="an-date" aria-hidden="true"><b>25</b><small>Dec</small></span>
+    <span class="an-text"><b>Open<span class="an-on"> on</span> Christmas Day</b><span class="an-sub">Festive set menu at Crockers Folly &amp; Beauchamp Place</span></span>
+    <span class="an-price" aria-hidden="true"><small>Set menu</small>£{XMAS_PRICE}</span>
+    <span class="an-cta" aria-hidden="true">See the menu <span class="ar">→</span></span>
+  </div>
+</a>
 '''
 
 # ---------------------------------------------------------------- shared chrome
