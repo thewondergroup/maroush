@@ -56,7 +56,7 @@ h3{letter-spacing:.1em}
 .announce b{font-family:var(--display);font-weight:500;letter-spacing:.14em}
 .top{background:#fff;border-bottom:1px solid var(--line)}
 .top .logo img{height:58px}
-.nav a,.nav>div>a{font:700 12px/1 var(--body)!important;letter-spacing:.24em!important;text-transform:uppercase;color:var(--slate)}
+.nav>a,.has-mega>a{font:700 12px/1 var(--body)!important;letter-spacing:.24em!important;text-transform:uppercase;color:var(--slate)}
 .mega{background:#fff}
 .mfeat{background:var(--slate)}
 
@@ -234,3 +234,26 @@ h1,h2,h3{font-weight:500!important;letter-spacing:.06em}
 .heritage .press cite{color:var(--gold)!important}
 .hprivate{background:#1d2129!important}
 footer{background:#14171d;border-top:1px solid rgba(207,166,112,.5)}
+
+/* ------------------------------------------------------------------
+   Restaurants drop-down menu
+   ------------------------------------------------------------------ */
+.mega{background:#fff;border-top:1px solid var(--gold);box-shadow:0 40px 70px -30px rgba(45,51,63,.35)}
+.mega-in{grid-template-columns:1fr 1fr minmax(260px,.72fr);gap:clamp(28px,4vw,64px);padding-block:44px 48px;align-items:start}
+.mcol h4{display:block;margin:0 0 4px;padding-bottom:14px;border-bottom:1px solid var(--gold);font:700 11px/1.3 var(--body);letter-spacing:.32em;color:var(--gold)}
+.mcol h4 span{display:block;margin-top:7px;font:italic 400 13.5px/1.3 var(--body);letter-spacing:.01em;text-transform:none;color:var(--muted)}
+.mv{grid-template-columns:1fr auto;gap:5px 18px;padding-block:17px;border-bottom:1px solid var(--line);color:var(--slate)}
+.mv b{font-family:var(--display)!important;font-weight:500!important;font-size:19px!important;letter-spacing:.14em!important;line-height:1.2;white-space:nowrap;color:var(--slate);transition:color .2s}
+.mv small{font:400 13.5px/1.4 var(--body);letter-spacing:.01em;color:var(--muted)}
+.mv em{opacity:1;transform:none;font:700 10.5px/1 var(--body);letter-spacing:.22em;color:var(--gold);transition:color .2s,transform .2s}
+.mv:hover b{color:var(--red);transform:none}
+.mv:hover em{color:var(--red);transform:translateX(4px)}
+.mall{margin-top:22px;font:700 11px/1 var(--body);letter-spacing:.26em;color:var(--slate);border-bottom:1px solid var(--gold);padding-bottom:6px}
+.mall:hover{color:var(--red)}
+.mfeat{background:var(--slate);min-height:340px;color:#fff;outline:1px solid var(--gold);outline-offset:8px;margin:8px}
+.mfeat .ph::after{background:linear-gradient(180deg,rgba(20,17,15,.15) 0,rgba(20,17,15,.35) 40%,rgba(20,17,15,.9) 100%)}
+.mfeat-c{padding:26px;gap:12px}
+.mfeat .label{color:var(--gold);opacity:1;letter-spacing:.3em}
+.mfeat-c b{font-family:var(--display)!important;font-weight:500!important;font-size:23px!important;letter-spacing:.12em!important;line-height:1.3;color:#fff}
+.mfeat .btn{margin-top:6px;padding:14px 20px;font-size:11px}
+@media (max-width:1180px){.mv b{font-size:17px!important;letter-spacing:.1em!important}}

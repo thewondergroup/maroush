@@ -21,6 +21,8 @@ for f in glob.glob(os.path.join(ROOT, '*.html')):
     s = re.sub(r'(src|href|poster)="assets/', r'\1="../assets/', s)
     s = s.replace('<link rel="stylesheet" href="../assets/site.css">', '<link rel="stylesheet" href="../assets/site.css">\n<link rel="stylesheet" href="../assets/classic.css">')
     s = s.replace("url('assets/", "url('../assets/").replace('url(assets/', 'url(../assets/')
+    # drop-down feature: the chandeliered room suits the Christmas card better than the bar film
+    s = re.sub(r'(<a class="mfeat"[^>]*>\s*<div class="ph">)<video[^>]*></video>', r'\1<img src="../assets/room-crockers.webp" alt="The Lords Dining Room at Crockers Folly">', s)
     if os.path.basename(f) == 'index.html':
         s = home_hero(s)
     open(os.path.join(OUT, os.path.basename(f)), 'w').write(s)
