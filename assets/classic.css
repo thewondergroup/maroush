@@ -299,3 +299,79 @@ footer{background:#14171d;border-top:1px solid rgba(207,166,112,.5)}
 }
 .hero .facts{gap:14px 34px}
 .hero .facts dd{font-size:15px!important;letter-spacing:.08em!important;line-height:1.35!important;font-weight:500!important}
+
+/* ------------------------------------------------------------------
+   Maroush red strips: the announcement bar, the dish ticker,
+   the Christmas promo band and the "to book" bars
+   ------------------------------------------------------------------ */
+.announce{background:var(--red)!important}
+.announce::after{display:none}
+.announce .an-date{background:#fff!important;transform:none}
+.announce .an-date *{color:var(--red)!important}
+.announce .an-price{color:#fff!important;border-color:rgba(255,255,255,.7)}
+.announce .an-sub{color:#ffe6dc!important;font-family:var(--body);font-style:italic;font-size:15px;letter-spacing:.02em}
+.announce .an-cta{border-color:#fff}
+.announce:hover .an-cta{background:#fff!important;color:var(--red)!important}
+.announce:hover .an-cta *{color:var(--red)!important}
+
+.ticker{background:var(--red);padding-block:15px}
+.ticker span{color:#fff}
+.ticker span::after{background:#fff;opacity:.85}
+.ticker i{color:#ffd9cc}
+
+.xstrip{background:var(--red);color:#fff}
+.xstrip .wrap{padding-block:clamp(30px,3.6vw,46px)}
+.xstrip .xpromo{margin:0;padding:0;border:0;background:transparent;color:#fff}
+.xstrip .xpromo .label{color:#ffd9cc!important}
+.xstrip .xpromo b{font-size:clamp(20px,2.3vw,30px)!important;line-height:1.3}
+.xstrip .xpromo p{opacity:.9}
+.xstrip .btn,.xbook .btn-cream{background:#fff;color:var(--red);border-color:#fff}
+.xstrip .btn:hover,.xbook .btn-cream:hover{background:var(--slate);border-color:var(--slate);color:#fff}
+.food{padding-top:clamp(84px,10vw,150px)!important}
+
+.xbook{background:var(--red);color:#fff;padding:clamp(20px,2.4vw,30px) clamp(22px,3vw,40px);margin-top:36px}
+.xbook .label{color:#ffd9cc!important}
+.xbook b{font-size:26px!important;color:#fff}
+.xbook .btn-ghost{color:#fff;border-color:rgba(255,255,255,.8)}
+.xbook .btn-ghost:hover{background:#fff;color:var(--red)}
+
+footer{border-top:4px solid var(--red)}
+
+/* ------------------------------------------------------------------
+   Mobile menu: one size of type, animated open and close
+   ------------------------------------------------------------------ */
+.menu-btn{border-radius:0;font:700 11px/1 var(--body);letter-spacing:.22em;padding:13px 16px}
+.mnav{display:flex;visibility:hidden;opacity:0;transform:translateY(-14px);pointer-events:none;
+  transition:opacity .35s ease,transform .45s cubic-bezier(.2,.7,.2,1),visibility 0s linear .45s;
+  background:#14171d;color:#fff;gap:0;border-top:5px solid var(--red);
+  padding-block:calc(84px + env(safe-area-inset-top,0px)) 48px}
+.mnav.show{visibility:visible;opacity:1;transform:none;pointer-events:auto;
+  transition:opacity .35s ease,transform .45s cubic-bezier(.2,.7,.2,1),visibility 0s}
+.mnav::before{content:"";position:absolute;top:calc(22px + env(safe-area-inset-top,0px));left:var(--gl);width:104px;height:48px;background:url(logo-cream.png) left center/contain no-repeat}
+.mnav .x{border-radius:0;border:1px solid rgba(255,255,255,.6);width:44px;height:44px;font-size:22px;line-height:1;display:grid;place-items:center;background:none;color:#fff;cursor:pointer}
+.mnav small{margin:26px 0 6px;padding-bottom:10px;border-bottom:1px solid var(--gold);font:700 10.5px/1.2 var(--body);letter-spacing:.34em;color:var(--gold);opacity:1}
+.mnav small:first-of-type{margin-top:0}
+.mnav a,.mnav a.sub{display:flex;justify-content:space-between;align-items:center;padding:13px 0;border-bottom:1px solid rgba(255,255,255,.1);
+  font-family:var(--display)!important;font-weight:500!important;font-size:17px!important;letter-spacing:.14em!important;line-height:1.25;color:#fff;opacity:1}
+.mnav a::after{content:"→";font-family:var(--body);font-size:14px;letter-spacing:0;color:var(--gold);transition:transform .2s}
+.mnav a:active{color:var(--gold)}
+.mnav a:active::after{transform:translateX(4px)}
+/* links rise in one after another */
+.mnav small,.mnav a{opacity:0;transform:translateY(14px);transition:opacity .2s,transform .2s}
+.mnav.show small,.mnav.show a{opacity:1;transform:none;transition:opacity .5s ease,transform .6s cubic-bezier(.2,.7,.2,1)}
+.mnav.show>:nth-child(2){transition-delay:.10s}.mnav.show>:nth-child(3){transition-delay:.13s}.mnav.show>:nth-child(4){transition-delay:.16s}
+.mnav.show>:nth-child(5){transition-delay:.19s}.mnav.show>:nth-child(6){transition-delay:.22s}.mnav.show>:nth-child(7){transition-delay:.25s}
+.mnav.show>:nth-child(8){transition-delay:.28s}.mnav.show>:nth-child(9){transition-delay:.31s}.mnav.show>:nth-child(10){transition-delay:.34s}
+.mnav.show>:nth-child(11){transition-delay:.37s}.mnav.show>:nth-child(12){transition-delay:.40s}.mnav.show>:nth-child(13){transition-delay:.43s}
+.mnav.show>:nth-child(14){transition-delay:.46s}.mnav.show>:nth-child(15){transition-delay:.49s}.mnav.show>:nth-child(16){transition-delay:.52s}
+.mnav.show>:nth-child(17){transition-delay:.55s}.mnav.show>:nth-child(18){transition-delay:.58s}.mnav.show>:nth-child(n+19){transition-delay:.61s}
+
+/* Desktop drop-down: rows rise in as it opens */
+.mega h4,.mega .mv,.mega .mall,.mega .mfeat{opacity:0;transform:translateY(12px);transition:opacity .2s,transform .2s}
+.has-mega:hover .mega h4,.has-mega:hover .mega .mv,.has-mega:hover .mega .mall,.has-mega:hover .mega .mfeat,
+.has-mega:focus-within .mega h4,.has-mega:focus-within .mega .mv,.has-mega:focus-within .mega .mall,.has-mega:focus-within .mega .mfeat,
+.has-mega.open .mega h4,.has-mega.open .mega .mv,.has-mega.open .mega .mall,.has-mega.open .mega .mfeat{opacity:1;transform:none;transition:opacity .5s ease,transform .6s cubic-bezier(.2,.7,.2,1)}
+.mega .mcol>:nth-child(2){transition-delay:.06s}.mega .mcol>:nth-child(3){transition-delay:.12s}.mega .mcol>:nth-child(4){transition-delay:.18s}.mega .mcol>:nth-child(5){transition-delay:.24s}
+.mega .mcol+.mcol>*{transition-delay:.08s}.mega .mcol+.mcol>:nth-child(2){transition-delay:.14s}.mega .mcol+.mcol>:nth-child(3){transition-delay:.20s}.mega .mcol+.mcol>:nth-child(4){transition-delay:.26s}.mega .mcol+.mcol>:nth-child(5){transition-delay:.32s}
+.mega .mfeat{transition-delay:.22s}
+@media (prefers-reduced-motion:reduce){.mnav,.mnav small,.mnav a,.mega h4,.mega .mv,.mega .mall,.mega .mfeat{transition:none!important;transform:none!important}}
