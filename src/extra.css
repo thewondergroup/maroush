@@ -369,3 +369,4 @@ a.mfeat{text-decoration:none;color:var(--cream)}
 @media (max-width:860px){.hl-grid,.hp-grid{grid-template-columns:1fr}.hl-art{max-width:520px}.steps{grid-template-columns:1fr}.gallery{grid-template-columns:1fr 1fr}.gallery .g3,.gallery .g5{grid-column:span 2}}
 @media (max-width:520px){.setgrid.three,.others.six{grid-template-columns:1fr}.hl-stamp{width:92px;height:92px;left:-6px}.hl-stamp b{font-size:26px}.occ span{font-size:18px;padding:12px 16px}.hl-list{grid-template-columns:1fr}}
 .others.nye-rooms{grid-template-columns:repeat(3,1fr)}.nye-rooms .other{cursor:default}.nye-rooms .other:hover{transform:none;border-color:var(--line)}.nye-rooms .other b{font-size:30px}@media (max-width:720px){.others.nye-rooms{grid-template-columns:1fr}}
+.nav a,.top-r .btn{white-space:nowrap}.nav{gap:clamp(18px,1.9vw,30px)}@media (max-width:1400px){.nav a{font-size:19px}}@media (max-width:1240px){.nav{display:none}.menu-btn{display:inline-block}}

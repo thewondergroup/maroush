@@ -207,6 +207,8 @@ def header(active=''):
         </div>
       </div>
       {nav_link('menu.html', 'Menu', active)}
+      {nav_link('christmas.html', 'Christmas', active)}
+      {nav_link('new-years-eve.html', 'New Year’s Eve', active)}
       {nav_link('private-dining.html', 'Private dining', active)}
       {nav_link('catering.html', 'Catering', active)}
       {nav_link('about.html', 'Our story', active)}
@@ -1423,7 +1425,7 @@ PAGES['crockers-folly'] = (PAGES['crockers-folly'][0], PAGES['crockers-folly'][1
 _cf2 = PAGES['crockers-folly'][2].replace('href="catering.html">Enquire about private dining','href="private-dining.html">Enquire about private dining')
 PAGES['crockers-folly'] = (PAGES['crockers-folly'][0], PAGES['crockers-folly'][1], _cf2)
 
-ACTIVE = {'new-years-eve': 'crockers-folly.html', 'private-dining': 'private-dining.html', 'lunch': 'menu.html', 'christmas': 'christmas.html', 'menu': 'menu.html', 'about': 'about.html', 'catering': 'catering.html', 'restaurants': 'restaurants.html', 'contact': 'contact.html'}
+ACTIVE = {'new-years-eve': 'new-years-eve.html', 'private-dining': 'private-dining.html', 'lunch': 'menu.html', 'christmas': 'christmas.html', 'menu': 'menu.html', 'about': 'about.html', 'catering': 'catering.html', 'restaurants': 'restaurants.html', 'contact': 'contact.html'}
 
 # ---------------------------------------------------------------- write
 def build():

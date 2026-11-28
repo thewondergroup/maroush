@@ -375,3 +375,9 @@ footer{border-top:4px solid var(--red)}
 .mega .mcol+.mcol>*{transition-delay:.08s}.mega .mcol+.mcol>:nth-child(2){transition-delay:.14s}.mega .mcol+.mcol>:nth-child(3){transition-delay:.20s}.mega .mcol+.mcol>:nth-child(4){transition-delay:.26s}.mega .mcol+.mcol>:nth-child(5){transition-delay:.32s}
 .mega .mfeat{transition-delay:.22s}
 @media (prefers-reduced-motion:reduce){.mnav,.mnav small,.mnav a,.mega h4,.mega .mv,.mega .mall,.mega .mfeat{transition:none!important;transform:none!important}}
+
+/* Top menu with seven links: keep each on one line, collapse to the Menu button sooner */
+.nav{gap:clamp(16px,1.75vw,28px)}
+.nav>a,.has-mega>a{letter-spacing:.2em!important;white-space:nowrap}
+.top-r .btn{white-space:nowrap;padding:14px 18px;letter-spacing:.2em}
+@media (max-width:1380px){.nav>a,.has-mega>a{font-size:11px!important;letter-spacing:.16em!important}.top-r .btn{padding:13px 14px;letter-spacing:.16em}}
