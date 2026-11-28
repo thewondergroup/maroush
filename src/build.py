@@ -112,6 +112,48 @@ def announce():
 </a>
 '''
 
+# ---------------------------------------------------------------- New Year's Eve 2026 (Crockers Folly only)
+NYE_PDF = 'assets/new-years-eve-menu-crockers-folly.pdf'
+NYE_ROOMS = [('The Lords Room', 'Dine under the chandeliers', '140'),
+             ('The Marble Room', 'Our marble dining room', '140'),
+             ('The Bar', 'Dine in the bar', '120')]
+NYE_COURSES = [
+ ('Sharing mezze', [('Lamb kibbeh', 'Lamb and bulgur croquettes filled with onion, lamb and pine nuts', 'Milk, gluten'),
+   ('Spicy soujok', 'Our butchers’ spicy Lebanese sausages with tomato and lemon', ''),
+   ('Hommos', 'Chickpeas, tahini and lemon', 'Sesame'),
+   ('Mouhamara', 'Roasted red pepper with walnuts, cashews, pistachios, chilli and cumin', 'Nuts, gluten'),
+   ('Halloumi pesto', 'Char-grilled halloumi with cherry tomato and pesto', 'Milk'),
+   ('Tabbouleh quinoa salad', 'Parsley, tomato, mint, quinoa and pomegranate', '')]),
+ ('Main course, a choice of', [('Mediterranean-spiced lamb shank', 'Oven-braised with herbs and spices, rich lamb gravy, and brown rice with minced lamb and toasted pine nuts', ''),
+   ('Grilled sea bass fillet', 'Olive oil, cumin and lemon, brown rice with caramelised onion and pine nuts, and a spicy tajen sauce', 'Fish, soya, sesame')]),
+ ('Dessert', [('Lebanese sweets and fresh fruit', 'A selection of Lebanese pastries with seasonal fruit', 'Milk, nuts, gluten')]),
+]
+
+def nye_menu_card():
+    cols = []
+    for title, items in NYE_COURSES:
+        li = ''.join(f'<li><b>{n}</b><p>{d}</p>{f"<span class=al>{a}</span>" if a else ""}</li>' for n, d, a in items)
+        cols.append(f'<div class="xc"><h3>{title}</h3><ul>{li}</ul></div>')
+    return f'''<div class="xcard">
+        <div class="xcard-h"><span class="label">New Year’s Eve · dine &amp; dance</span><b>£120<small>to £140 per person</small></b></div>
+        <div class="xcols">{''.join(cols)}</div>
+        <p class="xfine">Prices include VAT and depend on the room. A discretionary 12.5% service charge is added to your bill. Allergens are listed under each dish; please tell your server about any allergy.</p>
+      </div>'''
+
+def nye_band():
+    return f"""<section class="section xmas" id="new-years-eve">
+    <div class="wrap">
+      <div class="head">
+        <div><div class="label">31 December · Crockers Folly</div><h2>New Year’s Eve,<br><span class="it">dine &amp; dance</span></h2></div>
+        <p>See in 2027 with a Lebanese feast, a live singer and two ballet dancers. £120 a head in the bar, £140 in the Lords Room and the Marble Room.</p>
+      </div>
+      <div class="xbook">
+        <div><span class="label">To book</span><b class="sel">{V['crockers-folly']['phone']}</b><span class="sel">crockersfolly@maroush.com</span></div>
+        <div class="btns"><a class="btn btn-cream" href="new-years-eve.html">New Year’s Eve <span class="ar">→</span></a><a class="btn btn-ghost" href="{NYE_PDF}" target="_blank" rel="noopener">Menu PDF ↗</a></div>
+      </div>
+    </div>
+  </section>"""
+
 # ---------------------------------------------------------------- shared chrome
 def head(title, desc):
     return f'''<title>{title}</title>
@@ -185,6 +227,7 @@ def header(active=''):
   {''.join(f'<a class="sub" href="{k}.html">{V[k]["short"]}</a>' for k in GO)}
   <small>More</small>
   <a href="christmas.html">Christmas</a>
+  <a href="new-years-eve.html">New Year’s Eve</a>
   <a href="menu.html">Menu</a>
   <a href="about.html">Our story</a>
   <a href="lunch.html">Lunch offer</a>
@@ -210,6 +253,7 @@ def footer():
         <a href="lunch.html">Lunch offer</a>
         <a href="private-dining.html">Private dining</a>
         <a href="christmas.html">Christmas Day</a>
+        <a href="new-years-eve.html">New Year’s Eve</a>
         <a href="menu.html">Menu</a>
         <a href="about.html">Our story</a>
         <a href="catering.html">Events &amp; catering</a>
@@ -283,7 +327,7 @@ def others(exclude):
 def visit_band(k):
     v = V[k]
     hours = ''.join(f'<dt>{d}</dt><dd>{t}</dd>' for d, t in v['hours'])
-    hours += '<dt>Lunch offer</dt><dd><a href="lunch.html">Mon–Thu until 3pm</a></dd>'
+    hours += '<dt>Lunch offer</dt><dd><a href="lunch.html">Mon–Thu until 4pm</a></dd>'
     hours += '<dt>Christmas Day</dt><dd>' + ('Open · <a href="#christmas">festive menu</a>' if k in XMAS else 'Open · usual menu') + '</dd>'
     q = 'Maroush ' + ' '.join(v['addr'])
     if v['kind'] == 'sit':
@@ -712,7 +756,7 @@ SETS_EVERY = [
 ]
 
 # Lunch offer, all restaurants. Baklawa removed at the client's request (Oct 2026).
-LUNCH = dict(two='14.95', three='19.95', when='Monday to Thursday, 11am to 3pm',
+LUNCH = dict(two='14.95', three='19.95', when='Monday to Thursday, lunch until 4pm',
   starters=[('Hommos', 'Chickpeas, tahini, lemon and garlic, with olive oil'), ('Moutabal', 'Smoky aubergine with tahini, lemon and sumac'),
             ('Tabbouleh', 'Parsley, tomato, mint and bulgur with lemon'), ('Fattoush', 'Crisp salad with Lebanese bread, sumac and pomegranate'),
             ('Labneh', 'Strained yoghurt with olive oil and dried mint'), ('Lentil soup', 'Red lentils with cumin, crispy bread and lemon'),
@@ -1117,6 +1161,8 @@ def xmas_page():
     </div>
   </section>
 
+  ''' + nye_band() + '''
+
   <section class="section">
     <div class="wrap">
       <div class="head"><div><div class="label">Also open</div><h2>Our usual menu,<br><span class="it">all day</span></h2></div><p>No festive menu, just Maroush as you know it. Walk in for mezze, shawarma and grills on Christmas Day.</p></div>
@@ -1134,7 +1180,7 @@ def home_lunch():
       <div class="hl-copy">
         <div class="label">Lunch offer · every Maroush</div>
         <h2>Lunch,<br><span class="it">the Lebanese way</span></h2>
-        <p>Monday to Thursday, 11am to 3pm. Pick a starter and a main, or a main and a dessert, or treat yourself to all three.</p>
+        <p>Monday to Thursday, lunch until 4pm. Pick a starter and a main, or a main and a dessert, or treat yourself to all three.</p>
         <div class="lprices big"><div><b>£{L['two']}</b><span>Two courses</span></div><div><b>£{L['three']}</b><span>Three courses</span></div></div>
         <dl class="hl-list">
           <dt>Starters</dt><dd>{picks(L['starters'], 8)}</dd>
@@ -1292,6 +1338,52 @@ def private_page():
 PAGES['private-dining'] = ('Maroush Private Dining', "Private dining and group bookings at Maroush: the chandeliered Lords Dining Room at Crockers Folly, St John's Wood, and the first-floor dining room at Beauchamp Place, Knightsbridge. Lebanese sharing feasts for any occasion.", private_page())
 
 # ---------------------------------------------------------------- lunch page
+def nye_page():
+    v = V['crockers-folly']
+    rooms = ''.join(f'<div class="other"><small>{d}</small><b>{n}</b><span class="tag book">£{pr} per person</span></div>' for n, d, pr in NYE_ROOMS)
+    return crumbs(('crockers-folly.html', 'Crockers Folly'), ('', 'New Year’s Eve')) + f"""<main>
+  <section class="hero rest">
+    <img class="hero-mark" src="assets/mark-cream.png" alt="" aria-hidden="true">
+    <div class="wrap">
+      <div class="hero-copy">
+        <div class="label">New Year’s Eve · Crockers Folly</div>
+        <h1 class="long"><span class="ln"><span class="it">Dine &amp;</span></span><span class="ln"><span>Dance</span></span></h1>
+        <p class="hero-sub">See in the New Year at Crockers Folly with a Lebanese feast, a live singer and two ballet dancers. From £120 a head.</p>
+        <div class="hero-btns"><button class="btn btn-cream" type="button" data-book>Book New Year’s Eve <span class="ar">→</span></button><a class="btn btn-ghost" href="#nye-menu">See the menu</a></div>
+      </div>
+      <div class="hero-art">
+        {ph('room-crockers', 'The chandeliered Lords Room at Crockers Folly', 'ph peak', eager=True)}
+        <div class="stamp"><div><span>31 Dec</span><b>£120</b><span>per person</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="rooms">
+    <div class="wrap">
+      <div class="head"><div><div class="label">Choose your room</div><h2>Three rooms,<br><span class="it">one party</span></h2></div><p>The same menu and entertainment all night. The price depends on where you sit.</p></div>
+      <div class="others nye-rooms">{rooms}</div>
+    </div>
+  </section>
+
+  <section class="section" id="nye-menu" style="padding-top:0">
+    <div class="wrap">
+      <div class="head"><div><div class="label">The menu</div><h2>A feast to<br><span class="it">toast the year</span></h2></div><p>Sharing mezze for the table, lamb shank or sea bass, then Lebanese sweets and fresh fruit.</p></div>
+      {nye_menu_card()}
+    </div>
+  </section>
+
+  <section class="section lords" id="book">
+    <div class="wrap" style="display:block">
+      <div class="lords-copy" style="margin-bottom:28px"><div class="label">To book</div><h2>Crockers Folly,<br><span class="it">St John’s Wood</span></h2></div>
+      <div class="xbook">
+        <div><span class="label">Call or email</span><b class="sel">{v['phone']}</b><span class="sel">crockersfolly@maroush.com</span><span>{', '.join(v['addr'])}</span></div>
+        <div class="btns"><button class="btn btn-cream" type="button" data-book>Book New Year’s Eve <span class="ar">→</span></button><a class="btn btn-ghost" href="{NYE_PDF}" target="_blank" rel="noopener">Menu PDF ↗</a></div>
+      </div>
+    </div>
+  </section>
+</main>"""
+PAGES['new-years-eve'] = ('Maroush New Year’s Eve at Crockers Folly', "New Year’s Eve at Crockers Folly by Maroush: dine and dance with a Lebanese feast, a live singer and two ballet dancers. £120 per person in the bar, £140 in the Lords Room and the Marble Room.", nye_page())
+
 def lunch_page():
     cards = ''.join(f'<a class="other" href="{k}.html"><b>{V[k]["short"]}</b><small>{V[k]["area"]} · {V[k]["phone"]}</small><span class="tag {"book" if V[k]["kind"]=="sit" else ""}">{"Bookable" if V[k]["kind"]=="sit" else "Walk-in"}</span></a>' for k in V)
     return crumbs(('menu.html', 'Menu'), ('', 'Lunch offer')) + f"""<main>
@@ -1301,7 +1393,7 @@ def lunch_page():
       <div class="hero-copy">
         <div class="label">Lunch offer · Monday to Thursday</div>
         <h1><span class="ln"><span class="it">Lunch at</span></span><span class="ln"><span>Maroush</span></span></h1>
-        <p class="hero-sub">Two courses for £{LUNCH['two']} or three for £{LUNCH['three']}, Monday to Thursday from 11am to 3pm, at every Maroush in London.</p>
+        <p class="hero-sub">Two courses for £{LUNCH['two']} or three for £{LUNCH['three']}, Monday to Thursday, lunch until 4pm, at every Maroush in London. Dine-in only, tables of up to 5.</p>
         <div class="hero-btns"><a class="btn btn-cream" href="#lunch">See what’s on <span class="ar">→</span></a><button class="btn btn-ghost" type="button" data-book>Book a table</button></div>
       </div>
       <div class="hero-art">
@@ -1320,18 +1412,18 @@ def lunch_page():
     </div>
   </section>
 </main>"""
-PAGES['lunch'] = ('Maroush Lunch Offer', f"Maroush lunch offer: two courses for £{LUNCH['two']} or three courses for £{LUNCH['three']}, Monday to Thursday, 11am to 3pm, at every Maroush restaurant in London.", lunch_page())
+PAGES['lunch'] = ('Maroush Lunch Offer', f"Maroush lunch offer: two courses for £{LUNCH['two']} or three courses for £{LUNCH['three']}, Monday to Thursday, lunch until 4pm, at every Maroush restaurant in London.", lunch_page())
 
 _cf = PAGES['crockers-folly'][2]
-_cf = _cf.replace('<section class="section visit" id="visit">', xmas_band('crockers-folly') + '\n\n  <section class="section visit" id="visit">', 1)
-_cf = _cf.replace('<dl class="hours"><dt>Monday – Sunday</dt><dd>12pm – 12am</dd></dl>', '<dl class="hours"><dt>Monday – Sunday</dt><dd>12pm – 12am</dd><dt>Lunch offer</dt><dd><a href="lunch.html">Mon–Thu until 3pm</a></dd><dt>Christmas Day</dt><dd>Open · <a href="#christmas">festive menu</a></dd></dl>')
+_cf = _cf.replace('<section class="section visit" id="visit">', xmas_band('crockers-folly') + '\n\n  ' + nye_band() + '\n\n  <section class="section visit" id="visit">', 1)
+_cf = _cf.replace('<dl class="hours"><dt>Monday – Sunday</dt><dd>12pm – 12am</dd></dl>', '<dl class="hours"><dt>Monday – Sunday</dt><dd>12pm – 12am</dd><dt>Lunch offer</dt><dd><a href="lunch.html">Mon–Thu until 4pm</a></dd><dt>Christmas Day</dt><dd>Open · <a href="#christmas">festive menu</a></dd><dt>New Year’s Eve</dt><dd><a href="new-years-eve.html">Dine &amp; dance</a></dd></dl>')
 _cf = _cf.replace('<a href="menu.html">Full menu →</a>', '<a href="menu.html#menu-full">Full menu →</a><a href="lunch.html">Lunch offer →</a>')
 PAGES['crockers-folly'] = (PAGES['crockers-folly'][0], PAGES['crockers-folly'][1], _cf)
 
 _cf2 = PAGES['crockers-folly'][2].replace('href="catering.html">Enquire about private dining','href="private-dining.html">Enquire about private dining')
 PAGES['crockers-folly'] = (PAGES['crockers-folly'][0], PAGES['crockers-folly'][1], _cf2)
 
-ACTIVE = {'private-dining': 'private-dining.html', 'lunch': 'menu.html', 'christmas': 'christmas.html', 'menu': 'menu.html', 'about': 'about.html', 'catering': 'catering.html', 'restaurants': 'restaurants.html', 'contact': 'contact.html'}
+ACTIVE = {'new-years-eve': 'crockers-folly.html', 'private-dining': 'private-dining.html', 'lunch': 'menu.html', 'christmas': 'christmas.html', 'menu': 'menu.html', 'about': 'about.html', 'catering': 'catering.html', 'restaurants': 'restaurants.html', 'contact': 'contact.html'}
 
 # ---------------------------------------------------------------- write
 def build():
