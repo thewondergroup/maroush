@@ -1,0 +1,171 @@
+/* Maroush classic theme: loads after site.css and restyles the same pages
+   in the traditional maroush.com look (Cinzel + Lato, white, slate, gold, red). */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Lato:ital,wght@0,400;0,700;1,400&display=swap');
+
+:root{
+  --display:"Cinzel","Trajan Pro",Georgia,serif;
+  --serif:"Cinzel","Trajan Pro",Georgia,serif;
+  --body:"Lato","Helvetica Neue",Helvetica,Arial,sans-serif;
+  --paper:#ffffff;
+  --ink:#2d333f;
+  --cream:#ffffff;
+  --red:#dd3005;
+  --red-deep:#b82804;
+  --gold:#cfa670;
+  --grey:#9a9a9a;
+  --muted:#6b6b6b;
+  --line:#e6dccd;
+  --peak:none;
+  --stone:#f7f2ea;
+  --slate:#2d333f;
+}
+
+body{font-size:16px;line-height:1.7;color:#555}
+
+/* Type: wide-spaced Cinzel capitals instead of heavy condensed display */
+h1,h2,h3{font-weight:500;letter-spacing:.12em;line-height:1.15;color:inherit}
+h2{font-size:clamp(28px,3.4vw,46px)}
+h3{letter-spacing:.1em}
+.it{font-family:var(--display);font-style:normal;font-weight:400;text-transform:uppercase;letter-spacing:.14em;color:var(--gold)}
+.label{font:700 11px/1.3 var(--body);letter-spacing:.3em;color:var(--gold)}
+.head{align-items:end}
+.head h2::after,.lords-copy h2::after{content:"";display:block;width:60px;height:1px;background:var(--gold);margin-top:22px}
+.head p{color:var(--muted)}
+
+/* Buttons: square, small, widely tracked */
+.btn{border-radius:0;font:700 12px/1 var(--body);letter-spacing:.24em;padding:16px 28px}
+.btn:hover{transform:none}
+.btn-red{background:var(--red);color:#fff}
+.btn-cream{background:var(--red);color:#fff;border-color:var(--red)}
+.btn-cream:hover{background:var(--red-deep);border-color:var(--red-deep)}
+.btn-ghost{border-color:currentColor;color:inherit}
+.btn-line{border-color:var(--slate);color:var(--slate)}
+
+/* No peaked frames or rounded cards */
+.peak,.ph.peak{clip-path:none}
+.ph,.ph img,.ph video,.way,.xcard,.other,.hl-card,.xpromo,.mfeat,.vc,.stamp{border-radius:0}
+.hero-mark{display:none}
+
+/* Announcement bar and header */
+.announce{background:var(--slate)!important;color:#fff!important}
+.announce *{color:#fff}
+.announce .an-date{background:var(--gold)!important;color:var(--slate)!important;border-radius:0}
+.announce .an-date *{color:var(--slate)}
+.announce .an-price,.announce .an-sub{color:var(--gold)!important}
+.announce .an-cta{background:transparent!important;border:1px solid var(--gold);color:#fff!important;border-radius:0}
+.announce b{font-family:var(--display);font-weight:500;letter-spacing:.14em}
+.top{background:#fff;border-bottom:1px solid var(--line)}
+.top .logo img{height:58px}
+.nav a,.nav>div>a{font:700 12px/1 var(--body)!important;letter-spacing:.24em!important;text-transform:uppercase;color:var(--slate)}
+.mega{background:#fff}
+.mfeat{background:var(--slate)}
+
+/* Hero: white, centred feel, photo framed with a thin gold rule */
+.hero{background:#fff;color:var(--slate)}
+.hero .label{opacity:1;color:var(--gold)}
+.hero h1{font-size:clamp(34px,4.6vw,66px);font-weight:500;letter-spacing:.14em;line-height:1.2;margin-top:22px}
+.hero h1 .it{font-size:.5em;letter-spacing:.3em;margin-bottom:.6em;color:var(--gold)}
+.hero h1::after{content:"";display:block;width:70px;height:1px;background:var(--gold);margin-top:28px}
+.hero-sub{opacity:1;color:#555;font-size:17px}
+.hero .btn-ghost{color:var(--slate);border-color:var(--slate)}
+.hero-art .ph{background-color:var(--stone);outline:1px solid var(--gold);outline-offset:12px}
+.stamp{background:var(--red);color:#fff;transform:none;border-radius:0;width:120px;height:120px}
+.stamp b{font-family:var(--display);font-weight:500;font-size:30px;letter-spacing:.04em}
+
+/* Ticker: slate band, gold diamonds, Cinzel */
+.ticker{background:var(--slate)}
+.ticker span{font-family:var(--display);font-weight:500;font-size:16px;letter-spacing:.26em}
+.ticker span::after{background:var(--gold)}
+
+/* Restaurant panels */
+.way.sit{background:var(--stone);color:var(--slate)}
+.way.go{background:var(--slate);color:#fff}
+.way h3{font-size:clamp(26px,2.6vw,38px)}
+.way.sit .venue{border-color:var(--line)}
+.way.sit .way-foot{border-color:var(--line)}
+.way.sit .label{color:var(--gold);opacity:1}
+.way.sit .vc{border-color:var(--slate);color:var(--slate)}
+.way.sit .venue:hover .vc{background:var(--red);color:#fff;border-color:var(--red)}
+.vn{font-family:var(--display)!important;font-weight:500!important;letter-spacing:.1em}
+
+/* Dark sections become slate */
+.heritage,.hprivate,.lords,.xmas{background:var(--slate)!important;color:#fff}
+.heritage .label,.hprivate .label,.lords .label,.xmas .label{color:var(--gold)}
+.heritage .it,.hprivate .it,.lords .it,.xmas .it{color:var(--gold)}
+.year{-webkit-text-stroke-color:rgba(207,166,112,.4)!important}
+
+/* Lunch and promo blocks */
+.hlunch{background:var(--stone)}
+.hl-card,.xpromo{background:#fff;border:1px solid var(--line);color:var(--slate)}
+.xpromo *{color:inherit}
+.dish b{font-family:var(--display);font-weight:500;font-size:17px;letter-spacing:.12em}
+.dish i{color:var(--gold)}
+.press,.press *{color:var(--gold)!important}
+
+/* Menu cards and room cards */
+.xcard{background:var(--stone)!important;border:1px solid var(--line)}
+.xcard h3,.xcard-h b{color:var(--red)}
+.xc li b{font-family:var(--display);font-weight:600;font-style:normal;letter-spacing:.08em;text-transform:uppercase;font-size:14px;color:var(--slate)}
+.other{border-color:var(--line)}
+.other b{font-family:var(--display);font-weight:500;font-size:20px;letter-spacing:.1em}
+.other .tag.book{background:var(--red);border-color:var(--red);border-radius:0;color:#fff}
+.other .tag{border-radius:0}
+.crumbs{background:#fff}
+
+/* Footer: slate with gold headings */
+footer{background:var(--slate);color:#e6e6e6}
+footer h4{color:var(--gold);font-family:var(--body);letter-spacing:.3em}
+footer a{color:#e6e6e6}
+
+/* Cinzel has no heavy weights: bring every display element down to 500 */
+.an-date b,
+.an-price,
+.an-text b,
+.cbox b,
+.clist b,
+.contact-dl dd,
+.di b,
+.dish b,
+.facts dd,
+.facts4 b,
+.hl-stamp b,
+.lprices b,
+.mfeat-c b,
+.mi-top b,
+.mnav a,
+.mswitch button b,
+.mtabs a,
+.mv b,
+.nav a,
+.occ span,
+.offer b,
+.other b,
+.pillars b,
+.setc .pr,
+.setc b,
+.stamp b,
+.steps b,
+.steps li::before,
+.vbig,
+.vn,
+.vtable td:first-child a,
+.welcome .sig b,
+.xbook b,
+.xcard-h b,
+.xpromo b,
+.year,
+h1,h2,h3{font-weight:500!important;letter-spacing:.06em}
+
+/* Everything square, like the traditional site */
+*,*::before,*::after{border-radius:0!important}
+
+/* Keep big headings to the classic scale everywhere */
+.section h2,.hprivate h2,.heritage h2,.hl-grid h2,.hp-grid h2{font-size:clamp(28px,3.4vw,46px)!important;line-height:1.18!important;overflow-wrap:break-word}
+.hprivate .it,.heritage .it,.hlunch .it{color:var(--gold)!important}
+.heritage h2 .it,.hprivate h2 .it{color:var(--gold)!important}
+.xpromo b,.xpromo strong,.xpromo h3{font-family:var(--display);font-weight:500!important;letter-spacing:.1em}
+.hp-grid li::before,.hp-grid li::marker{color:var(--gold)}
+[style*="#ff8a6b"],.xbook .label{color:var(--gold)!important}
+
+.lords h2 .it,.xmas h2 .it,.lords .it{color:var(--gold)!important}
+@media (max-width:620px){.top-r .btn{padding:12px 14px;letter-spacing:.16em;font-size:11px;white-space:nowrap}}
